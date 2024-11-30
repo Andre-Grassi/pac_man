@@ -1,5 +1,5 @@
 import Display from './Display.js';
-import GameObject from './GameObject.js';
+import { GameObject, Direction } from './GameObject.js';
 
 class Joystick {
   constructor() {
@@ -47,21 +47,21 @@ window.addEventListener('keyup', (event) => {
 
 function handleInput() {
   if (joystick.up) {
-    player.move(0, -player.speed);
+    player.move(Direction.UP);
   }
   if (joystick.down) {
-    player.move(0, player.speed);
+    player.move(Direction.DOWN);
   }
   if (joystick.left) {
-    player.move(-player.speed, 0);
+    player.move(Direction.LEFT);
   }
   if (joystick.right) {
-    player.move(player.speed, 0);
+    player.move(Direction.RIGHT);
   }
 }
 
 const display = new Display(800, 600);
-const player = new GameObject(50, 50, 50, 50, 'red');
+const player = new GameObject(50, 50, 50, 50, 'red', 1);
 const enemy = new GameObject(100, 100, 50, 50, 'blue');
 player.draw(display);
 
@@ -75,6 +75,7 @@ function game(timeSinceLastFrame) {
   const deltaTime = currentTime - timeSinceLastFrame;
 
   handleInput();
+  console.log(player.x);
 
   display.clear();
   player.draw(display);
