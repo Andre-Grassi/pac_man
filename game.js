@@ -103,11 +103,24 @@ const player = new GameObject(50, 50, 50, 50, 'red');
 const enemy = new GameObject(100, 100, 50, 50, 'blue');
 player.draw(display);
 
-function game() {
+function game(timeSinceLastFrame) {
+  // Get current time
+  const currentTime = performance.now();
+
+  // Get elapsed time to make the game frame independent
+  // For example, movements should multiply by the elapsed time
+  // to make the movement smooth and independent of the frame rate
+  const deltaTime = currentTime - timeSinceLastFrame;
+
   handleInput();
+
   display.clear();
   player.draw(display);
   enemy.draw(display);
+
+  // Refresh display and continue execution of the game loop
   requestAnimationFrame(game);
 }
+
+game();
 // display.clear();
