@@ -43,11 +43,11 @@ class Joystick {
     }
   }
 
-  moveObject(object, deltaTime) {
-    if (this.up) object.move(Direction.UP, deltaTime)
-    if (this.down) object.move(Direction.DOWN, deltaTime)
-    if (this.left) object.move(Direction.LEFT, deltaTime)
-    if (this.right) object.move(Direction.RIGHT, deltaTime)
+  moveEntity(entity, collisionObjects) {
+    if (this.up) entity.move(Direction.UP, collisionObjects)
+    if (this.down) entity.move(Direction.DOWN, collisionObjects)
+    if (this.left) entity.move(Direction.LEFT, collisionObjects)
+    if (this.right) entity.move(Direction.RIGHT, collisionObjects)
   }
 }
 
