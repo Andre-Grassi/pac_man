@@ -15,20 +15,31 @@ class GameObject {
   move(direction, deltaTime) {
     switch (direction) {
       case Direction.UP:
-        this.y -= this.speed * deltaTime
+        this.y -= this.speed
         break
       case Direction.DOWN:
-        this.y += this.speed * deltaTime
+        this.y += this.speed
         break
       case Direction.LEFT:
-        this.x -= this.speed * deltaTime
+        this.x -= this.speed
         break
       case Direction.RIGHT:
-        this.x += this.speed * deltaTime
+        this.x += this.speed
         break
       default:
         break
     }
+  }
+
+  isColliding(otherGameObject) {
+    let xIsOverlapping =
+      this.x + this.width >= otherGameObject.x &&
+      this.x <= otherGameObject.x + otherGameObject.width
+    let yIsOverlapping =
+      this.y + this.height >= otherGameObject.y &&
+      this.y <= otherGameObject.y + otherGameObject.height
+
+    return xIsOverlapping && yIsOverlapping
   }
 }
 
