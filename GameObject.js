@@ -41,6 +41,11 @@ class GameObject {
 
     return xIsOverlapping && yIsOverlapping
   }
+
+  // Check if the game object is colliding with any of the other game objects
+  isCollidingArray(otherGameObjects) {
+    return otherGameObjects.some((object) => this.isColliding(object))
+  }
 }
 
 // Definition of the directions a game object can move
