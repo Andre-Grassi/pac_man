@@ -46,6 +46,11 @@ class GameObject {
   isCollidingArray(otherGameObjects) {
     return otherGameObjects.some((object) => this.isColliding(object))
   }
+
+  // Get array of game objects that the game object is colliding with
+  getCollidingArray(otherGameObjects) {
+    return otherGameObjects.filter((object) => this.isColliding(object))
+  }
 }
 
 // Definition of the directions a game object can move
