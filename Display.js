@@ -3,20 +3,20 @@
 // screen using the HTML5 canvas element.
 class Display {
   constructor(width, height) {
-    this.canvas = document.getElementById('game-canvas');
-    this.canvas.width = width;
-    this.canvas.height = height;
-    this.context = this.canvas.getContext('2d');
+    this.canvas = document.getElementById('game-canvas')
+    this.canvas.width = width
+    this.canvas.height = height
+    this.context = this.canvas.getContext('2d')
   }
 
   drawRectangle(x, y, width, height, color) {
-    this.context.fillStyle = color;
-    this.context.fillRect(x, y, width, height);
+    this.context.fillStyle = color
+    this.context.fillRect(x, y, width, height)
   }
 
   clear() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 }
 
-export default Display;
+export default Display
