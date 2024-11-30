@@ -1,12 +1,26 @@
 import Display from './Display.js'
 import { GameObject, Direction } from './GameObject.js'
 import Joystick from './Joystick.js'
+import Maze from './Maze.js'
 
 const joystick = new Joystick()
 
 const display = new Display(800, 600)
-const player = new GameObject(50, 50, 50, 50, 'red', 1)
+const player = new GameObject(50, 50, 50, 50, 'red', 3)
 const enemy = new GameObject(100, 100, 50, 50, 'blue')
+const maze = new Maze(
+  [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  ],
+  display
+)
 let deltaTime = 0
 player.draw(display)
 
@@ -23,6 +37,7 @@ function game(timeSinceLastFrame) {
   console.log(player.x)
 
   display.clear()
+  maze.draw()
   player.draw(display)
   enemy.draw(display)
 
