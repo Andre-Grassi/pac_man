@@ -2,8 +2,21 @@ import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
 
 class Enemy extends Entity {
-  constructor(x, y, width, height, color, speed) {
+  constructor(x, y, width, height, color, speed, name) {
     super(x, y, width, height, color, speed)
+
+    this.name = name
+  }
+
+  draw(display) {
+    // Draw the enemy
+    display.drawRectangle(this.x, this.y, this.width, this.height, this.color)
+
+    // Draw name
+    display.context.font = 'bold 20px Arial'
+    display.context.fillStyle = 'red'
+    display.context.textAlign = 'center'
+    display.context.fillText(this.name, this.x + this.width / 2, this.y - 10)
   }
 
   // Move enemy, evading player
