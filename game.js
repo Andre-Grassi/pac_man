@@ -31,25 +31,30 @@ const maze = new Maze(
 let deltaTime = 0
 player.draw(display)
 
+let paused = false
+
 function game(timeSinceLastFrame) {
-  // Get current time
-  const currentTime = performance.now()
+  if (!paused) {
+    // Get current time
+    const currentTime = performance.now()
 
-  // Get elapsed time to make the game frame independent
-  // For example, movements should multiply by the elapsed time
-  // to make the movement smooth and independent of the frame rate
-  deltaTime = currentTime - timeSinceLastFrame
+    // Get elapsed time to make the game frame independent
+    // For example, movements should multiply by the elapsed time
+    // to make the movement smooth and independent of the frame rate
+    deltaTime = currentTime - timeSinceLastFrame
 
-  // Move player, that is limited by the maze tiles
-  joystick.moveEntity(player, [...maze.wallObjects])
+    // Move player, that is limited by the maze tiles
+    joystick.moveEntity(player, [...maze.wallObjects])
 
-  // Move enemies
-  enemies.forEach((object) => object.evadePlayer(player, [...maze.wallObjects]))
+    // Move enemies
+    enemies.forEach((object) =>
+      object.evadePlayer(player, [...maze.wallObjects])
+    )
 
-  console.log(player.x)
+    console.log(player.x)
 
-  // Check collision with enemies to delete them
-  /*
+    // Check collision with enemies to delete them
+    /*
   let enemiesCollided = player.getCollidingArray(enemies)
   enemiesCollided.forEach((object) => {
     // Remove the enemy from the enemy array
@@ -57,18 +62,21 @@ function game(timeSinceLastFrame) {
     console.log('Collided with enemy')
   })
     */
-  // Find a free spot to place a fruit
-  fruits.spawnFruit(maze)
+    // Find a free spot to place a fruit
+    fruits.spawnFruit(maze)
 
-  // Check collision with fruits to delete them
-  fruits.checkAndRemoveCollidedFruits(player, maze)
+    // Check collision with fruits to delete them
+    fruits.checkAndRemoveCollidedFruits(player, maze)
 
-  display.clear()
-  maze.draw(display)
-  player.draw(display)
+    updateEnemyList()
 
-  fruits.draw(display)
-  enemies.forEach((enemy) => enemy.draw(display))
+    display.clear()
+    maze.draw(display)
+    player.draw(display)
+
+    fruits.draw(display)
+    enemies.forEach((enemy) => enemy.draw(display))
+  }
 
   // Refresh display and continue execution of the game loop
   requestAnimationFrame(game)
@@ -104,6 +112,22 @@ document.getElementById('delete-button').addEventListener('click', function () {
   // Remove the enemy from the enemies array
   enemies.splice(enemies.indexOf(enemyToDelete), 1)
 })
+
+function updateEnemyList() {
+  // Clear the list of enemies
+  document.getElementById('enemy-list').innerHTML = ''
+
+  // Add each enemy to the list
+  enemies.forEach((enemy) => {
+    const tr = document.createElement('tr')
+    const td = document.createElement('td')
+    const btn = document.createElement('button')
+    btn.textContent = enemy.name
+    td.appendChild(btn)
+    tr.appendChild(td)
+    document.getElementById('enemy-list').appendChild(tr)
+  })
+}
 
 game()
 // display.clear();
