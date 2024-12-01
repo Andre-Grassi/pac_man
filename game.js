@@ -2,6 +2,7 @@ import Display from './Display.js'
 import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
 import Enemy from './Enemy.js'
+import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
 
@@ -10,7 +11,7 @@ const joystick = new Joystick()
 const display = new Display(800, 600)
 const player = new Entity(100, 155, 50, 50, 'red', 2)
 const enemies = [new Enemy(100, 100, 50, 50, 'blue', 2)]
-const fruits = []
+const fruits = new Fruit(50, 50, 'green')
 const maze = new Maze(
   [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -54,54 +55,16 @@ function game(timeSinceLastFrame) {
   })
     */
   // Find a free spot to place a fruit
-  function findFreeSpot() {
-    let freeSpots = []
-    for (let row = 0; row < maze.mazeArray.length; row++) {
-      for (let col = 0; col < maze.mazeArray[row].length; col++) {
-        if (maze.mazeArray[row][col] === 0) {
-          freeSpots.push({ row: row, col: col })
-        }
-      }
-    }
-
-    return freeSpots[Math.floor(Math.random() * freeSpots.length)]
-  }
-
-  const freeSpot = findFreeSpot()
-
-  // Place a fruit in the free spot
-  // Limit the number of fruits to 3
-  if (freeSpot && fruits.length < 3) {
-    maze.mazeArray[freeSpot.row][freeSpot.col] = 2
-    fruits.push(
-      new GameObject(
-        freeSpot.col * maze.tileWidth,
-        freeSpot.row * maze.tileHeight,
-        50,
-        50,
-        'green',
-        0
-      )
-    )
-    console.log(fruits)
-  }
+  fruits.spawnFruit(maze)
 
   // Check collision with fruits to delete them
-  let fruitsCollided = player.getCollidingArray(fruits)
-  fruitsCollided.forEach((object) => {
-    // Remove the fruit from the fruit array
-    fruits.splice(fruits.indexOf(object), 1)
-
-    // TODO set tile to be empty
-
-    console.log('Collided with fruit')
-  })
+  fruits.checkAndRemoveCollidedFruits(player, maze)
 
   display.clear()
   maze.draw(display)
   player.draw(display)
 
-  fruits.forEach((fruit) => fruit.draw(display))
+  fruits.draw(display)
   enemies.forEach((enemy) => enemy.draw(display))
 
   // Refresh display and continue execution of the game loop
