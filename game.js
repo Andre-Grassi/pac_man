@@ -37,10 +37,10 @@ function game(timeSinceLastFrame) {
   deltaTime = currentTime - timeSinceLastFrame
 
   // Move player, that is limited by the maze tiles
-  joystick.moveEntity(player, [...maze.tileObjects])
+  joystick.moveEntity(player, [...maze.wallObjects])
 
   // Move enemies
-  enemies.forEach((object) => object.evadePlayer(player, [...maze.tileObjects]))
+  enemies.forEach((object) => object.evadePlayer(player, [...maze.wallObjects]))
 
   console.log(player.x)
 
@@ -68,6 +68,9 @@ function game(timeSinceLastFrame) {
   }
 
   const freeSpot = findFreeSpot()
+
+  // Place a fruit in the free spot
+  // Limit the number of fruits to 3
   if (freeSpot && fruits.length < 3) {
     maze.mazeArray[freeSpot.row][freeSpot.col] = 2
     fruits.push(
@@ -88,6 +91,9 @@ function game(timeSinceLastFrame) {
   fruitsCollided.forEach((object) => {
     // Remove the fruit from the fruit array
     fruits.splice(fruits.indexOf(object), 1)
+
+    // TODO set tile to be empty
+
     console.log('Collided with fruit')
   })
 
