@@ -31,6 +31,8 @@ const maze = new Maze(
 let deltaTime = 0
 player.draw(display)
 
+let selectedEnemy = null
+
 let paused = false
 
 function game(timeSinceLastFrame) {
@@ -66,9 +68,15 @@ function game(timeSinceLastFrame) {
     fruits.spawnFruit(maze)
 
     // Check collision with fruits to delete them
-    fruits.checkAndRemoveCollidedFruits(player, maze)
+    const collected = fruits.checkAndRemoveCollidedFruits(player, maze)
 
-    updateEnemyList()
+    if (collected) {
+      paused = true
+      showEnemyList()
+      updateEnemyList()
+    }
+
+    // updateEnemyList()
 
     display.clear()
     maze.draw(display)
@@ -113,21 +121,64 @@ document.getElementById('delete-button').addEventListener('click', function () {
   enemies.splice(enemies.indexOf(enemyToDelete), 1)
 })
 
+document
+  .getElementById('update-button')
+  .addEventListener('click', async function () {
+    console.log('Updating enemy')
+  })
+
+function showEnemyList() {
+  // Get div element that contains the table of enemies
+  const enemyDiv = document.getElementById('enemy-table-wrapper')
+
+  // Make it visible
+  enemyDiv.style.visibility = 'visible'
+}
+
+function printSelectedEnemy(enemy) {
+  console.log('Selected enemy: ', enemy)
+  selectedEnemy = enemy
+}
+
 function updateEnemyList() {
   // Clear the list of enemies
   document.getElementById('enemy-list').innerHTML = ''
 
-  // Add each enemy to the list
   enemies.forEach((enemy) => {
     const tr = document.createElement('tr')
     const td = document.createElement('td')
-    const btn = document.createElement('button')
-    btn.textContent = enemy.name
+    const btn = document.createElement('input')
+    btn.type = 'radio'
+    btn.id = `enemy-${enemy.docId}`
+
+    const label = document.createElement('label')
+    label.htmlFor = `enemy-${enemy.docId}`
+    label.textContent = enemy.name
+    // btn.textContent = enemy.name
+
+    btn.addEventListener('click', () => printSelectedEnemy(enemy))
+
     td.appendChild(btn)
+    td.appendChild(label)
     tr.appendChild(td)
     document.getElementById('enemy-list').appendChild(tr)
   })
 }
+
+document.getElementById('update-button').addEventListener('click', function () {
+  // Get value from input
+  const newName = document.getElementById('update-input').value
+
+  Database.put('enemies', selectedEnemy.docId, { name: newName })
+
+  // Find the enemy in the enemies array and update the name
+  const enemyToUpdate = enemies.find(
+    (enemy) => enemy.docId === selectedEnemy.docId
+  )
+  enemyToUpdate.name = newName
+
+  paused = false
+})
 
 game()
 // display.clear();
