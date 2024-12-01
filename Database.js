@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   addDoc,
+  setDoc,
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js'
 
@@ -15,6 +16,15 @@ const Database = {
       return docRef.id
     } catch (e) {
       console.error('Error posting: ', e)
+    }
+  },
+
+  put: async function (collectionName, docId, objectData) {
+    try {
+      const docRef = doc(db, collectionName, docId)
+      await setDoc(docRef, objectData)
+    } catch (e) {
+      console.error('Error putting: ', e)
     }
   },
 
