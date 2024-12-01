@@ -2,10 +2,11 @@ import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
 
 class Enemy extends Entity {
-  constructor(x, y, width, height, color, speed, name) {
+  constructor(x, y, width, height, color, speed, name, docId) {
     super(x, y, width, height, color, speed)
 
     this.name = name
+    this.docId = docId
   }
 
   draw(display) {
