@@ -10,7 +10,7 @@ const joystick = new Joystick()
 
 const display = new Display(800, 600)
 const player = new Entity(100, 155, 50, 50, 'red', 2)
-const enemies = [new Enemy(100, 100, 50, 50, 'blue', 2)]
+const enemies = [new Enemy(100, 100, 50, 50, 'blue', 2, 'enemy1')]
 const fruits = new Fruit(50, 50, 'green')
 const maze = new Maze(
   [
