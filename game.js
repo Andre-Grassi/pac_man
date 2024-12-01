@@ -70,6 +70,8 @@ function game(timeSinceLastFrame) {
     // Check collision with fruits to delete them
     const collected = fruits.checkAndRemoveCollidedFruits(player, maze)
 
+    // If the player has collected a fruit, pause the game and
+    // show the list of enemies to update
     if (collected) {
       paused = true
       showEnemyList()
@@ -90,24 +92,25 @@ function game(timeSinceLastFrame) {
   requestAnimationFrame(game)
 }
 
+/* ----------------- Create Enemy Form ----------------- */
 // Add event listener to the form to add enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
 })
 
-document
-  .getElementById('create-button')
-  .addEventListener('click', async function () {
-    const inputName = document.getElementById('input-name').value
+async function createEnemy() {
+  const inputName = document.getElementById('input-name').value
 
-    // Add the enemy to the database
-    const docId = await Database.post('enemies', { name: inputName })
+  // Add the enemy to the database
+  const docId = await Database.post('enemies', { name: inputName })
 
-    // TODO if the addition fails, the enemy should not be added
-    enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
-  })
+  // TODO if the addition fails, the enemy should not be added
+  enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
+}
 
-document.getElementById('delete-button').addEventListener('click', function () {
+document.getElementById('create-button').addEventListener('click', createEnemy)
+
+function deleteEnemy() {
   const inputName = document.getElementById('input-name').value
 
   // Search for the enemy with the given name
@@ -119,8 +122,11 @@ document.getElementById('delete-button').addEventListener('click', function () {
   // TODO if the deletion fails, the enemy should not be removed
   // Remove the enemy from the enemies array
   enemies.splice(enemies.indexOf(enemyToDelete), 1)
-})
+}
 
+document.getElementById('delete-button').addEventListener('click', deleteEnemy)
+
+/* ----------------- Update Enemy Form ----------------- */
 document
   .getElementById('update-button')
   .addEventListener('click', async function () {
@@ -133,11 +139,6 @@ function showEnemyList() {
 
   // Make it visible
   enemyDiv.style.visibility = 'visible'
-}
-
-function printSelectedEnemy(enemy) {
-  console.log('Selected enemy: ', enemy)
-  selectedEnemy = enemy
 }
 
 function updateEnemyList() {
@@ -156,7 +157,9 @@ function updateEnemyList() {
     label.textContent = enemy.name
     // btn.textContent = enemy.name
 
-    btn.addEventListener('click', () => printSelectedEnemy(enemy))
+    btn.addEventListener('click', function () {
+      selectedEnemy = enemy
+    })
 
     td.appendChild(btn)
     td.appendChild(label)
@@ -165,7 +168,7 @@ function updateEnemyList() {
   })
 }
 
-document.getElementById('update-button').addEventListener('click', function () {
+function updateEnemy() {
   // Get value from input
   const newName = document.getElementById('update-input').value
 
@@ -178,7 +181,9 @@ document.getElementById('update-button').addEventListener('click', function () {
   enemyToUpdate.name = newName
 
   paused = false
-})
+}
+
+document.getElementById('update-button').addEventListener('click', updateEnemy)
 
 game()
 // display.clear();
