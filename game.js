@@ -12,7 +12,7 @@ const joystick = new Joystick()
 
 const display = new Display(800, 600)
 const player = new Entity(100, 155, 50, 50, 'red', 2)
-const enemies = [new Enemy(100, 100, 50, 50, 'blue', 2, 'enemy1')]
+const enemies = []
 const fruits = new Fruit(50, 50, 'green')
 const maze = new Maze(
   [
@@ -77,10 +77,32 @@ function game(timeSinceLastFrame) {
 // Add event listener to the form to add enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
-  const formData = new FormData(event.target)
-  const formText = formData.get('input-name')
-  enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, formText))
-  Database.post('enemies', { name: formText })
+})
+
+document
+  .getElementById('create-button')
+  .addEventListener('click', async function () {
+    const inputName = document.getElementById('input-name').value
+
+    // Add the enemy to the database
+    const docId = await Database.post('enemies', { name: inputName })
+
+    // TODO if the addition fails, the enemy should not be added
+    enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
+  })
+
+document.getElementById('delete-button').addEventListener('click', function () {
+  const inputName = document.getElementById('input-name').value
+
+  // Search for the enemy with the given name
+  const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
+
+  // Delete the enemy from the database
+  Database.delete('enemies', enemyToDelete.docId)
+
+  // TODO if the deletion fails, the enemy should not be removed
+  // Remove the enemy from the enemies array
+  enemies.splice(enemies.indexOf(enemyToDelete), 1)
 })
 
 game()
