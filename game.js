@@ -177,6 +177,9 @@ function updateEnemy() {
   enemyToUpdate.name = newName
 
   paused = false
+
+  // Hide the list of enemies again
+  document.getElementById('enemy-table-wrapper').style.visibility = 'hidden'
 }
 
 game()
