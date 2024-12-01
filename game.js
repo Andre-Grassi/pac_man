@@ -6,13 +6,7 @@ import Enemy from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
-
-// Firebase imports
-import { db } from './firebase-config.js'
-import {
-  collection,
-  addDoc,
-} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js'
+import Database from './Database.js'
 
 const joystick = new Joystick()
 
@@ -33,6 +27,7 @@ const maze = new Maze(
   ],
   display
 )
+
 let deltaTime = 0
 player.draw(display)
 
@@ -85,17 +80,8 @@ document.getElementById('db-form').addEventListener('submit', function (event) {
   const formData = new FormData(event.target)
   const formText = formData.get('input-name')
   enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, formText))
-  addEnemyToFirestore(enemies[enemies.length - 1])
+  Database.post('enemies', { name: formText })
 })
-
-async function addEnemyToFirestore(enemy) {
-  try {
-    const docRef = await addDoc(collection(db, 'enemies'), { name: enemy.name })
-    console.log('Document written with ID: ', docRef.id)
-  } catch (e) {
-    console.error('Error adding document: ', e)
-  }
-}
 
 game()
 // display.clear();
