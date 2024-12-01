@@ -15,8 +15,8 @@ class Maze {
         if (this.mazeArray[i][j] === 1)
           this.tiles.push(
             new GameObject(
-              this.tileWidth * i,
-              this.tileHeight * j,
+              this.tileWidth * j,
+              this.tileHeight * i,
               this.tileWidth,
               this.tileHeight,
               'black'
