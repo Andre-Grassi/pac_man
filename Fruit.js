@@ -36,6 +36,8 @@ class Fruit {
 
   // Delete a fruit when the player collides with it
   checkAndRemoveCollidedFruits(player, maze) {
+    let collided = false
+
     // Check collision with fruits to delete them
     const fruitsCollided = player.getCollidingArray(this.fruits)
     fruitsCollided.forEach((object) => {
@@ -47,7 +49,11 @@ class Fruit {
       const col = object.x / maze.tileWidth
 
       maze.mazeArray[row][col] = TileType.EMPTY
+
+      collided = true
     })
+
+    return collided
   }
 }
 
