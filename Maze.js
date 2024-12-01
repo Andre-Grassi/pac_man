@@ -29,4 +29,11 @@ class Maze {
   }
 }
 
-export default Maze
+// Definition of the types of tiles in the maze
+const TileType = Object.freeze({
+  EMPTY: 0,
+  WALL: 1,
+  FRUIT: 2,
+})
+
+export { Maze, TileType }
