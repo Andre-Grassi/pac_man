@@ -6,12 +6,37 @@
     <title>Pac-Man</title>
   </head>
   <body>
-    <canvas id="game-canvas"></canvas>
     <form id="db-form">
       <input type="text" id="input-name" name="input-name" placeholder="Name" />
       <button type="button" id="create-button">Create</button>
       <button type="button" id="delete-button">Delete</button>
     </form>
+
+    <table id="enemy-table">
+      <thead>
+        <tr>
+          <th>Enemy</th>
+        </tr>
+      </thead>
+      <tbody id="enemy-list">
+        <tr>
+          <td>Example Enemy</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form id="update-form">
+      <input
+        type="text"
+        id="update-input"
+        name="update-input"
+        placeholder="Update Enemy"
+      />
+      <button type="button" id="update-button">Atualizar</button>
+    </form>
+
+    <canvas id="game-canvas"></canvas>
+
     <script type="module" src="game.js"></script>
   </body>
 </html>
