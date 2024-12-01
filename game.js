@@ -75,7 +75,6 @@ function game(timeSinceLastFrame) {
     if (collected) {
       paused = true
       showEnemyList()
-      updateEnemyList()
     }
 
     // updateEnemyList()
@@ -92,23 +91,29 @@ function game(timeSinceLastFrame) {
   requestAnimationFrame(game)
 }
 
-/* ----------------- Create Enemy Form ----------------- */
-// Add event listener to the form to add enemies
+/* ----------------- Event Listeners ----------------- */
+// Event listener for the update button (only show when user collects a fruit)
+document.getElementById('update-button').addEventListener('click', updateEnemy)
+
+// Event listeneres for the form of adding and deleting enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
 })
+document.getElementById('create-button').addEventListener('click', createEnemy)
+document.getElementById('delete-button').addEventListener('click', deleteEnemy)
 
+/* ----------------- Create/Delete Enemy Form ----------------- */
 async function createEnemy() {
+  // Get value from input
   const inputName = document.getElementById('input-name').value
 
   // Add the enemy to the database
   const docId = await Database.post('enemies', { name: inputName })
 
   // TODO if the addition fails, the enemy should not be added
+  // Add the new enemy to the enemies array
   enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
 }
-
-document.getElementById('create-button').addEventListener('click', createEnemy)
 
 function deleteEnemy() {
   const inputName = document.getElementById('input-name').value
@@ -124,24 +129,15 @@ function deleteEnemy() {
   enemies.splice(enemies.indexOf(enemyToDelete), 1)
 }
 
-document.getElementById('delete-button').addEventListener('click', deleteEnemy)
-
 /* ----------------- Update Enemy Form ----------------- */
-document
-  .getElementById('update-button')
-  .addEventListener('click', async function () {
-    console.log('Updating enemy')
-  })
-
+// Show the list of enemies to update and a form to update them
 function showEnemyList() {
   // Get div element that contains the table of enemies
   const enemyDiv = document.getElementById('enemy-table-wrapper')
 
   // Make it visible
   enemyDiv.style.visibility = 'visible'
-}
 
-function updateEnemyList() {
   // Clear the list of enemies
   document.getElementById('enemy-list').innerHTML = ''
 
@@ -182,8 +178,6 @@ function updateEnemy() {
 
   paused = false
 }
-
-document.getElementById('update-button').addEventListener('click', updateEnemy)
 
 game()
 // display.clear();
