@@ -71,5 +71,13 @@ function game(timeSinceLastFrame) {
   requestAnimationFrame(game)
 }
 
+// Add event listener to the form to add enemies
+document.getElementById('db-form').addEventListener('submit', function (event) {
+  event.preventDefault()
+  const formData = new FormData(event.target)
+  const formText = formData.get('input-name')
+  enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, formText))
+})
+
 game()
 // display.clear();
