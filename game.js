@@ -3,7 +3,7 @@ import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
 import Enemy from './Enemy.js'
 import Joystick from './Joystick.js'
-import Maze from './Maze.js'
+import { Maze, TileType } from './Maze.js'
 
 const joystick = new Joystick()
 
