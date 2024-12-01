@@ -12,28 +12,28 @@
       <button type="button" id="delete-button">Delete</button>
     </form>
 
-    <table id="enemy-table">
-      <thead>
-        <tr>
-          <th>Enemy</th>
-        </tr>
-      </thead>
-      <tbody id="enemy-list">
-        <tr>
-          <td>Example Enemy</td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="enemy-table-wrapper" style="visibility: hidden">
+      <table id="enemy-table">
+        <thead>
+          <tr>
+            <th>Enemy</th>
+          </tr>
+        </thead>
+        <tbody id="enemy-list"></tbody>
+      </table>
 
-    <form id="update-form">
-      <input
-        type="text"
-        id="update-input"
-        name="update-input"
-        placeholder="Update Enemy"
-      />
-      <button type="button" id="update-button">Atualizar</button>
-    </form>
+      
+
+      <form id="update-form">
+        <input
+          type="text"
+          id="update-input"
+          name="update-input"
+          placeholder="Update Enemy"
+        />
+        <button type="button" id="update-button">Atualizar</button>
+      </form>
+    </div>
 
     <canvas id="game-canvas"></canvas>
 
