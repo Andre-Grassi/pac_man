@@ -65,8 +65,8 @@ function game(timeSinceLastFrame) {
 
     // Check collision with enemies to delete them
     let enemiesCollided = player.getCollidingArray(enemies)
-    enemiesCollided.forEach((object) => {
-      const deleted = deleteEnemy(object.docId, Database, 'enemies')
+    enemiesCollided.forEach(async (object) => {
+      const deleted = await deleteEnemy(object.docId, Database, 'enemies')
 
       // Remove the enemy from the enemy array
       if (deleted) enemies.splice(enemies.indexOf(object), 1)
@@ -123,7 +123,7 @@ async function handleCreateEnemy() {
   // Get value from input
   const inputName = document.getElementById('input-name').value
 
-  newEnemy = await createEnemy(inputName, Database, 'enemies')
+  const newEnemy = await createEnemy(inputName, Database, 'enemies')
 
   // TODO if the addition fails, the enemy should not be added
   // Add the new enemy to the enemies array
@@ -180,7 +180,12 @@ async function handleUpdateEnemy() {
   const newName = document.getElementById('update-input').value
 
   // Update the enemy in the database
-  let updated = updateEnemy(selectedEnemy.docId, newName, Database, 'enemies')
+  let updated = await updateEnemy(
+    selectedEnemy.docId,
+    newName,
+    Database,
+    'enemies'
+  )
 
   if (!updated) return
 
