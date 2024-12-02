@@ -61,4 +61,17 @@ class Enemy extends Entity {
   }
 }
 
-export default Enemy
+async function getEnemies(Database, collectionName) {
+  const enemies = []
+  const enemyData = await Database.get(collectionName)
+
+  enemyData.forEach((enemy) => {
+    enemies.push(
+      new Enemy(100, 100, 50, 50, 'blue', 2, enemy.name, enemy.docId)
+    )
+  })
+
+  return enemies
+}
+
+export { Enemy, getEnemies }
