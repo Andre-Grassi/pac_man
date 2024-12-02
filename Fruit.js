@@ -15,7 +15,7 @@ class Fruit {
   }
 
   spawnFruit(maze) {
-    const freeSpot = findFreeSpot(maze)
+    const freeSpot = findFreeSpotFruit(maze)
 
     // Place a fruit in the free spot
     // Limit the number of fruits to 3
@@ -58,7 +58,7 @@ class Fruit {
 }
 
 // Find a free spot to place a fruit
-function findFreeSpot(maze) {
+function findFreeSpotFruit(maze) {
   let freeSpots = []
   for (let row = 0; row < maze.mazeArray.length; row++) {
     for (let col = 0; col < maze.mazeArray[row].length; col++) {
