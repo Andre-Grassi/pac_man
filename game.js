@@ -117,14 +117,14 @@ async function createEnemy() {
   enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
 }
 
-function deleteEnemy() {
+async function deleteEnemy() {
   const inputName = document.getElementById('input-name').value
 
   // Search for the enemy with the given name
   const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
 
   // Delete the enemy from the database
-  Database.delete('enemies', enemyToDelete.docId)
+  await Database.delete('enemies', enemyToDelete.docId)
 
   // TODO if the deletion fails, the enemy should not be removed
   // Remove the enemy from the enemies array
@@ -162,11 +162,11 @@ function showEnemyList() {
   })
 }
 
-function updateEnemy() {
+async function updateEnemy() {
   // Get value from input
   const newName = document.getElementById('update-input').value
 
-  Database.put('enemies', selectedEnemy.docId, { name: newName })
+  await Database.put('enemies', selectedEnemy.docId, { name: newName })
 
   // Find the enemy in the enemies array and update the name
   const enemyToUpdate = enemies.find(
