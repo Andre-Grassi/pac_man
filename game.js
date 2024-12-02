@@ -43,7 +43,7 @@ let selectedEnemy = null
 
 let paused = false
 
-function game(timeSinceLastFrame) {
+async function game(timeSinceLastFrame) {
   if (!paused) {
     // Get current time
     const currentTime = performance.now()
@@ -61,16 +61,20 @@ function game(timeSinceLastFrame) {
       object.evadePlayer(player, [...maze.wallObjects])
     )
 
-    console.log(player.x)
-
-    // Check collision with enemies to delete them
+    // Check collision with enemies
     let enemiesCollided = player.getCollidingArray(enemies)
-    enemiesCollided.forEach(async (object) => {
-      const deleted = await deleteEnemy(object.docId, Database, 'enemies')
+
+    // Iterate over the enemies that collided with the player and delete them
+    // from the database and the enemies array
+    // Using for of loop instead of forEach to use await inside the loop (the
+    // deleteEnemy function is asynchronous)
+    for (const enemy of enemiesCollided) {
+      const deleted = await deleteEnemy(enemy.docId, Database, 'enemies')
 
       // Remove the enemy from the enemy array
-      if (deleted) enemies.splice(enemies.indexOf(object), 1)
-    })
+      if (deleted) enemies.splice(enemies.indexOf(enemy), 1)
+      console.log(enemies)
+    }
 
     // Find a free spot to place a fruit
     fruits.spawnFruit(maze)
@@ -95,7 +99,6 @@ function game(timeSinceLastFrame) {
     enemies.forEach((enemy) => enemy.draw(display))
   }
 
-  // Refresh display and continue execution of the game loop
   requestAnimationFrame(game)
 }
 
@@ -202,4 +205,3 @@ async function handleUpdateEnemy() {
 }
 
 game()
-// display.clear();
