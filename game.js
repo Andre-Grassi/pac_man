@@ -2,7 +2,7 @@
 import Display from './Display.js'
 import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
-import { Enemy, getEnemies } from './Enemy.js'
+import { Enemy, getEnemies, createEnemy, deleteEnemy } from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
@@ -101,34 +101,39 @@ document.getElementById('update-button').addEventListener('click', updateEnemy)
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
 })
-document.getElementById('create-button').addEventListener('click', createEnemy)
-document.getElementById('delete-button').addEventListener('click', deleteEnemy)
+
+document
+  .getElementById('create-button')
+  .addEventListener('click', handleCreateEnemy)
+
+document
+  .getElementById('delete-button')
+  .addEventListener('click', handleDeleteEnemy)
 
 /* ----------------- Create/Delete Enemy Form ----------------- */
-async function createEnemy() {
+async function handleCreateEnemy() {
   // Get value from input
   const inputName = document.getElementById('input-name').value
 
-  // Add the enemy to the database
-  const docId = await Database.post('enemies', { name: inputName })
+  newEnemy = await createEnemy(inputName, Database, 'enemies')
 
   // TODO if the addition fails, the enemy should not be added
   // Add the new enemy to the enemies array
-  enemies.push(new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId))
+  enemies.push(newEnemy)
 }
 
-async function deleteEnemy() {
+async function handleDeleteEnemy() {
   const inputName = document.getElementById('input-name').value
 
   // Search for the enemy with the given name
   const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
 
   // Delete the enemy from the database
-  await Database.delete('enemies', enemyToDelete.docId)
+  const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
 
   // TODO if the deletion fails, the enemy should not be removed
   // Remove the enemy from the enemies array
-  enemies.splice(enemies.indexOf(enemyToDelete), 1)
+  if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
 }
 
 /* ----------------- Update Enemy Form ----------------- */
