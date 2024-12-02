@@ -93,9 +93,16 @@ async function createEnemy(enemyName, Database, collectionName) {
   return new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId)
 }
 
+async function updateEnemy(enemyId, newName, Database, collectionName) {
+  await Database.put(collectionName, enemyId, { name: newName })
+
+  // TODO if the update fails, the enemy should not be updated
+  return true
+}
+
 async function deleteEnemy(enemyId, Database, collectionName) {
   // Delete the enemy from the database
-  await Database.delete('enemies', enemyId)
+  await Database.delete(collectionName, enemyId)
 
   // TODO if the deletion fails, the enemy should not be removed
   return true
@@ -115,4 +122,4 @@ function findFreeSpotEnemy(maze) {
   return freeSpots[Math.floor(Math.random() * freeSpots.length)]
 }
 
-export { Enemy, getEnemies, createEnemy, deleteEnemy }
+export { Enemy, getEnemies, createEnemy, updateEnemy, deleteEnemy }
