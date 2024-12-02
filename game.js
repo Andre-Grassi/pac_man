@@ -2,7 +2,13 @@
 import Display from './Display.js'
 import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
-import { Enemy, getEnemies, createEnemy, deleteEnemy } from './Enemy.js'
+import {
+  Enemy,
+  getEnemies,
+  createEnemy,
+  updateEnemy,
+  deleteEnemy,
+} from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
@@ -95,7 +101,9 @@ function game(timeSinceLastFrame) {
 
 /* ----------------- Event Listeners ----------------- */
 // Event listener for the update button (only show when user collects a fruit)
-document.getElementById('update-button').addEventListener('click', updateEnemy)
+document
+  .getElementById('update-button')
+  .addEventListener('click', handleUpdateEnemy)
 
 // Event listeneres for the form of adding and deleting enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
@@ -167,11 +175,14 @@ function showEnemyList() {
   })
 }
 
-async function updateEnemy() {
+async function handleUpdateEnemy() {
   // Get value from input
   const newName = document.getElementById('update-input').value
 
-  await Database.put('enemies', selectedEnemy.docId, { name: newName })
+  // Update the enemy in the database
+  let updated = updateEnemy(selectedEnemy.docId, newName, Database, 'enemies')
+
+  if (!updated) return
 
   // Find the enemy in the enemies array and update the name
   const enemyToUpdate = enemies.find(
