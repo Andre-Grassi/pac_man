@@ -3,12 +3,26 @@ import { db } from './firebase-config.js'
 import {
   collection,
   doc,
+  getDocs,
   addDoc,
   setDoc,
   deleteDoc,
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js'
 
 const Database = {
+  get: async function (collectionName) {
+    try {
+      const querySnapshot = await getDocs(collection(db, collectionName))
+      const data = []
+      querySnapshot.forEach((doc) => {
+        data.push({ id: doc.id, ...doc.data() })
+      })
+      return data
+    } catch (e) {
+      console.error('Error getting: ', e)
+    }
+  },
+
   post: async function (collectionName, objectData) {
     try {
       const docRef = await addDoc(collection(db, collectionName), objectData)
