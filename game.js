@@ -64,14 +64,14 @@ function game(timeSinceLastFrame) {
     console.log(player.x)
 
     // Check collision with enemies to delete them
-    /*
-  let enemiesCollided = player.getCollidingArray(enemies)
-  enemiesCollided.forEach((object) => {
-    // Remove the enemy from the enemy array
-    enemies.splice(enemies.indexOf(object), 1)
-    console.log('Collided with enemy')
-  })
-    */
+    let enemiesCollided = player.getCollidingArray(enemies)
+    enemiesCollided.forEach((object) => {
+      const deleted = deleteEnemy(object.docId, Database, 'enemies')
+
+      // Remove the enemy from the enemy array
+      if (deleted) enemies.splice(enemies.indexOf(object), 1)
+    })
+
     // Find a free spot to place a fruit
     fruits.spawnFruit(maze)
 
