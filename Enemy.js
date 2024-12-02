@@ -20,6 +20,17 @@ class Enemy extends Entity {
     display.context.fillText(this.name, this.x + this.width / 2, this.y - 10)
   }
 
+  // Randomize enemy position in a free spot in the maze (fruit spot is also
+  // considered a free spot)
+  randomizePosition(maze) {
+    const freeSpot = findFreeSpotEnemy(maze)
+
+    if (freeSpot) {
+      this.x = freeSpot.col * maze.tileWidth
+      this.y = freeSpot.row * maze.tileHeight
+    }
+  }
+
   // Move enemy, evading player
   evadePlayer(playerEntity, collisionObjects) {
     let oldY = this.y // Save the old y position
@@ -72,6 +83,20 @@ async function getEnemies(Database, collectionName) {
   })
 
   return enemies
+}
+
+// Find a free spot to place a enemy (fruit spot is also considered a free spot)
+function findFreeSpotEnemy(maze) {
+  let freeSpots = []
+  for (let row = 0; row < maze.mazeArray.length; row++) {
+    for (let col = 0; col < maze.mazeArray[row].length; col++) {
+      if (maze.mazeArray[row][col] !== 1) {
+        freeSpots.push({ row: row, col: col })
+      }
+    }
+  }
+
+  return freeSpots[Math.floor(Math.random() * freeSpots.length)]
 }
 
 export { Enemy, getEnemies }
