@@ -15,7 +15,7 @@ const Database = {
       const querySnapshot = await getDocs(collection(db, collectionName))
       const data = []
       querySnapshot.forEach((doc) => {
-        data.push({ id: doc.id, ...doc.data() })
+        data.push({ docId: doc.id, ...doc.data() })
       })
       return data
     } catch (e) {
