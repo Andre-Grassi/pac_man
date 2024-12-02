@@ -134,11 +134,8 @@ function deleteEnemy() {
 /* ----------------- Update Enemy Form ----------------- */
 // Show the list of enemies to update and a form to update them
 function showEnemyList() {
-  // Get div element that contains the table of enemies
-  const enemyDiv = document.getElementById('enemy-table-wrapper')
-
-  // Make it visible
-  enemyDiv.style.visibility = 'visible'
+  // Make the form element visible
+  document.getElementById('update-form').style.visibility = 'visible'
 
   // Clear the list of enemies
   document.getElementById('enemy-list').innerHTML = ''
@@ -180,7 +177,7 @@ function updateEnemy() {
   paused = false
 
   // Hide the list of enemies again
-  document.getElementById('enemy-table-wrapper').style.visibility = 'hidden'
+  document.getElementById('update-form').style.visibility = 'hidden'
 }
 
 game()
