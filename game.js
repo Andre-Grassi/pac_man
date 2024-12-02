@@ -144,9 +144,9 @@ function showEnemyList() {
   document.getElementById('enemy-list').innerHTML = ''
 
   enemies.forEach((enemy) => {
-    const tr = document.createElement('tr')
-    const td = document.createElement('td')
+    const li = document.createElement('li')
     const btn = document.createElement('input')
+    btn.name = 'enemy-radio'
     btn.type = 'radio'
     btn.id = `enemy-${enemy.docId}`
 
@@ -159,10 +159,9 @@ function showEnemyList() {
       selectedEnemy = enemy
     })
 
-    td.appendChild(btn)
-    td.appendChild(label)
-    tr.appendChild(td)
-    document.getElementById('enemy-list').appendChild(tr)
+    li.appendChild(btn)
+    li.appendChild(label)
+    document.getElementById('enemy-list').appendChild(li)
   })
 }
 
