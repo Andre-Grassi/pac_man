@@ -2,7 +2,7 @@
 import Display from './Display.js'
 import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
-import Enemy from './Enemy.js'
+import { Enemy, getEnemies } from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
@@ -12,7 +12,7 @@ const joystick = new Joystick()
 
 const display = new Display(800, 600)
 const player = new Entity(100, 155, 50, 50, 'red', 2)
-const enemies = []
+const enemies = await getEnemies(Database, 'enemies')
 const fruits = new Fruit(50, 50, 'green')
 const maze = new Maze(
   [
