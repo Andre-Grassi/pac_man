@@ -11,9 +11,6 @@ import Database from './Database.js'
 const joystick = new Joystick()
 
 const display = new Display(800, 600)
-const player = new Entity(100, 155, 50, 50, 'red', 2)
-const enemies = await getEnemies(Database, 'enemies')
-const fruits = new Fruit(50, 50, 'green')
 const maze = new Maze(
   [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -27,6 +24,11 @@ const maze = new Maze(
   ],
   display
 )
+const player = new Entity(100, 155, 50, 50, 'red', 2)
+const enemies = await getEnemies(Database, 'enemies')
+enemies.forEach((enemy) => enemy.randomizePosition(maze))
+
+const fruits = new Fruit(50, 50, 'green')
 
 let deltaTime = 0
 player.draw(display)
