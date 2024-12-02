@@ -90,7 +90,7 @@ async function createEnemy(enemyName, Database, collectionName) {
   const docId = await Database.post(collectionName, { name: enemyName })
 
   // TODO if the addition fails, the enemy should not be added
-  return new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId)
+  return new Enemy(100, 100, 50, 50, 'blue', 2, enemyName, docId)
 }
 
 async function updateEnemy(enemyId, newName, Database, collectionName) {
