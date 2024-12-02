@@ -85,6 +85,22 @@ async function getEnemies(Database, collectionName) {
   return enemies
 }
 
+async function createEnemy(enemyName, Database, collectionName) {
+  // Add the enemy to the database
+  const docId = await Database.post(collectionName, { name: enemyName })
+
+  // TODO if the addition fails, the enemy should not be added
+  return new Enemy(100, 100, 50, 50, 'blue', 2, inputName, docId)
+}
+
+async function deleteEnemy(enemyId, Database, collectionName) {
+  // Delete the enemy from the database
+  await Database.delete('enemies', enemyId)
+
+  // TODO if the deletion fails, the enemy should not be removed
+  return true
+}
+
 // Find a free spot to place a enemy (fruit spot is also considered a free spot)
 function findFreeSpotEnemy(maze) {
   let freeSpots = []
@@ -99,4 +115,4 @@ function findFreeSpotEnemy(maze) {
   return freeSpots[Math.floor(Math.random() * freeSpots.length)]
 }
 
-export { Enemy, getEnemies }
+export { Enemy, getEnemies, createEnemy, deleteEnemy }
