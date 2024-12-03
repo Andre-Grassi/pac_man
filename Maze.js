@@ -56,6 +56,19 @@ class Maze {
         }
       }
   }
+
+  findFreeSpot() {
+    let freeSpots = []
+    for (let row = 0; row < this.mazeArray.length; row++) {
+      for (let col = 0; col < this.mazeArray[row].length; col++) {
+        if (this.mazeArray[row][col] === TileType.EMPTY) {
+          freeSpots.push({ x: col * this.tileWidth, y: row * this.tileHeight })
+        }
+      }
+    }
+
+    return freeSpots[Math.floor(Math.random() * freeSpots.length)]
+  }
 }
 
 // Definition of the types of tiles in the maze
