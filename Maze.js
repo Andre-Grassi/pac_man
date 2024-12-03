@@ -41,6 +41,13 @@ class Maze {
     })
   }
 
+  getIndexFromCoordinates(x, y) {
+    return {
+      row: Math.floor(y / this.tileHeight),
+      col: Math.floor(x / this.tileWidth),
+    }
+  }
+
   resize(display) {
     this.tileWidth = display.canvas.width / this.mazeArray[0].length
     this.tileHeight = display.canvas.height / this.mazeArray.length
@@ -66,6 +73,8 @@ class Maze {
         }
       }
     }
+
+    if (freeSpots.length === 0) console.log('No free spots left in the maze')
 
     return freeSpots[Math.floor(Math.random() * freeSpots.length)]
   }
