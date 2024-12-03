@@ -30,11 +30,15 @@ const maze = new Maze(
   ],
   display
 )
-const pac = new GameObject(100, 100, 50, 50, 'blue', 0, './sprites/pac-man.png')
-console.log(pac.sprite)
 const player = new Entity(100, 155, 50, 50, 'red', 2, 'sprites/pac-man.png')
 const enemies = await getEnemies(Database, 'enemies')
 enemies.forEach((enemy) => enemy.randomizePosition(maze))
+const enemySpritePaths = [
+  './sprites/orange-ghost.png',
+  './sprites/pink-ghost.png',
+  './sprites/red-ghost.png',
+  './sprites/aqua-ghost.png',
+]
 
 const fruits = new Fruit(50, 50, 'green', './sprites/fruit.png')
 
@@ -98,8 +102,10 @@ async function game(timeSinceLastFrame) {
     player.drawSprite(display)
 
     fruits.drawSprite(display)
-    enemies.forEach((enemy) => enemy.drawRectangle(display))
-    display.context.drawImage(pac.sprite, pac.x, pac.y)
+    enemies.forEach((enemy) => {
+      enemy.drawSprite(display)
+      enemy.drawName(display)
+    })
   }
 
   requestAnimationFrame(game)
@@ -129,7 +135,16 @@ async function handleCreateEnemy() {
   // Get value from input
   const inputName = document.getElementById('input-name').value
 
-  const newEnemy = await createEnemy(inputName, Database, 'enemies')
+  // Get random sprite path for the new enemy
+  const randomIndex = Math.floor(Math.random() * enemySpritePaths.length)
+  console.log(randomIndex)
+
+  const newEnemy = await createEnemy(
+    inputName,
+    enemySpritePaths[randomIndex],
+    Database,
+    'enemies'
+  )
 
   // TODO if the addition fails, the enemy should not be added
   // Add the new enemy to the enemies array
@@ -186,12 +201,7 @@ async function handleUpdateEnemy() {
   const newName = document.getElementById('update-input').value
 
   // Update the enemy in the database
-  let updated = await updateEnemy(
-    selectedEnemy.docId,
-    newName,
-    Database,
-    'enemies'
-  )
+  let updated = await updateEnemy(selectedEnemy, newName, Database, 'enemies')
 
   if (!updated) return
 
