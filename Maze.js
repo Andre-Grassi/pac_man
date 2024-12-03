@@ -1,5 +1,8 @@
 import { GameObject } from './GameObject.js'
 
+const tileBorderColor = 'rgb(66, 56, 217)'
+const tileColor = 'black'
+
 class Maze {
   constructor(mazeArray, display) {
     this.mazeArray = mazeArray
@@ -19,13 +22,15 @@ class Maze {
               this.tileHeight * i,
               this.tileWidth,
               this.tileHeight,
-              'black'
+              tileColor
             )
           )
   }
 
   draw(display) {
-    this.wallObjects.forEach((object) => object.drawRectangle(display))
+    this.wallObjects.forEach((object) =>
+      object.drawRectangleBorder(display, tileBorderColor, 3)
+    )
   }
 }
 
