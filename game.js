@@ -36,7 +36,7 @@ const player = new Entity(100, 155, 50, 50, 'red', 2, 'sprites/pac-man.png')
 const enemies = await getEnemies(Database, 'enemies')
 enemies.forEach((enemy) => enemy.randomizePosition(maze))
 
-const fruits = new Fruit(50, 50, 'green')
+const fruits = new Fruit(50, 50, 'green', './sprites/fruit.png')
 
 let deltaTime = 0
 player.drawRectangle(display)
@@ -97,7 +97,7 @@ async function game(timeSinceLastFrame) {
     maze.draw(display)
     player.drawSprite(display)
 
-    fruits.drawRectangle(display)
+    fruits.drawSprite(display)
     enemies.forEach((enemy) => enemy.drawRectangle(display))
     display.context.drawImage(pac.sprite, pac.x, pac.y)
   }
