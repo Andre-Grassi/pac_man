@@ -76,7 +76,7 @@ let selectedEnemy = null
 let paused = false
 
 async function game(timeSinceLastFrame) {
-  if (!paused) {
+  if (!paused && !resizing) {
     // Get current time
     const currentTime = performance.now()
 
@@ -117,7 +117,7 @@ async function game(timeSinceLastFrame) {
 
     // If the player has collected a fruit, pause the game and
     // show the list of enemies to update
-    if (collected) {
+    if (collected && enemies.length > 0) {
       paused = true
       showEnemyList()
     }
@@ -139,9 +139,12 @@ async function game(timeSinceLastFrame) {
 }
 
 /* ----------------- Event Listeners ----------------- */
+let resizing = false
 window.addEventListener('resize', resizeDisplay)
 
 function resizeDisplay() {
+  if (resizing) return
+  resizing = true
   console.log('resizing')
   const body = document.querySelector('body')
   const windowWidth = body.offsetWidth
@@ -159,6 +162,22 @@ function resizeDisplay() {
     window.innerHeight - formHeight - gameCanvasMarginsHeight
   display.resize(displayWidth, displayHeight)
   maze.resize(display)
+
+  // Reposition enemies
+  enemies.forEach((enemy) => enemy.randomizePosition(maze))
+
+  // Delete fruits
+  fruits.fruits.forEach((fruit) => fruits.removeFruit(fruit, maze))
+
+  // Spawn new fruits
+  fruits.spawnFruit(maze)
+
+  // Reposition player
+  const playerPosition = maze.findFreeSpot()
+  player.x = playerPosition.x
+  player.y = playerPosition.y
+
+  resizing = false
 }
 
 // Event listener for the update button (only show when user collects a fruit)
