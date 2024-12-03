@@ -25,7 +25,7 @@ class Maze {
   }
 
   draw(display) {
-    this.wallObjects.forEach((object) => object.draw(display))
+    this.wallObjects.forEach((object) => object.drawRectangle(display))
   }
 }
 
