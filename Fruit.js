@@ -2,16 +2,21 @@ import { GameObject } from './GameObject.js'
 import { TileType } from './Maze.js'
 
 class Fruit {
-  constructor(width, height, color) {
+  constructor(width, height, color, spritePath = null) {
     this.width = width
     this.height = height
     this.color = color
+    this.spritePath = spritePath
 
     this.fruits = []
   }
 
   drawRectangle(display) {
     this.fruits.forEach((fruit) => fruit.drawRectangle(display))
+  }
+
+  drawSprite(display) {
+    this.fruits.forEach((fruit) => fruit.drawSprite(display))
   }
 
   spawnFruit(maze) {
@@ -28,7 +33,8 @@ class Fruit {
           50,
           50,
           'green',
-          0
+          0,
+          this.spritePath
         )
       )
     }
