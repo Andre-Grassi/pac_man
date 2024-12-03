@@ -20,7 +20,7 @@ class Enemy extends Entity {
   }
 
   drawName(display) {
-    display.context.font = 'bold 20px Arial'
+    display.context.font = 'bold 12px Emulogic, Arial'
     display.context.fillStyle = 'red'
     display.context.textAlign = 'center'
     display.context.fillText(this.name, this.x + this.width / 2, this.y - 10)
