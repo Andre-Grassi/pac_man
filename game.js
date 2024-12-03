@@ -14,27 +14,21 @@ import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
 import Database from './Database.js'
 
-/* ----------------- Display Setup ----------------- */
+import { getElementHeight, getElementMarginsHeight } from './utils.js'
+
+/* ----------------- Display (canvas) Setup ----------------- */
 const windowWidth = window.innerWidth
-console.log('Current window width:', windowWidth)
 let displayWidth = window.innerWidth
-console.log('Current window width:', windowWidth)
+
+// Limit the canvas width to 800px
 if (window.innerWidth > 800) displayWidth = 800
+
+// Calculate display height
 const form = document.getElementById('db-form')
-const formStyle = getComputedStyle(form)
-const marginTop = parseInt(formStyle.marginTop)
-const marginBottom = parseInt(formStyle.marginBottom)
-const formHeight =
-  document.getElementById('db-form').offsetHeight + marginTop + marginBottom
-
-console.log('Form height:', formHeight)
-
+const formHeight = getElementHeight(form)
 const gameCanvas = document.getElementById('game-canvas')
-const gameCanvasStyle = getComputedStyle(gameCanvas)
-const gameCanvasMarginTop = parseInt(gameCanvasStyle.marginTop)
-const gameCanvasMarginBottom = parseInt(gameCanvasStyle.marginBottom)
-const displayHeight =
-  window.innerHeight - formHeight - gameCanvasMarginTop - gameCanvasMarginBottom
+const gameCanvasMarginsHeight = getElementMarginsHeight(gameCanvas)
+const displayHeight = window.innerHeight - formHeight - gameCanvasMarginsHeight
 const display = new Display(displayWidth, displayHeight)
 
 /* ----------------- Game Objects Setup ----------------- */
