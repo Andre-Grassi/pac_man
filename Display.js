@@ -20,6 +20,11 @@ class Display {
     this.context.strokeRect(x, y, width, height)
   }
 
+  resize(width, height) {
+    this.canvas.width = width
+    this.canvas.height = height
+  }
+
   clear() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
