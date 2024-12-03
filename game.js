@@ -14,9 +14,24 @@ import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
 import Database from './Database.js'
 
-const joystick = new Joystick()
+/* ----------------- Display Setup ----------------- */
+const windowWidth = window.innerWidth
+console.log('Current window width:', windowWidth)
+let displayWidth = window.innerWidth
+console.log('Current window width:', windowWidth)
+if (window.innerWidth > 800) displayWidth = 800
+const form = document.getElementById('db-form')
+const formStyle = getComputedStyle(form)
+const marginTop = parseInt(formStyle.marginTop)
+const marginBottom = parseInt(formStyle.marginBottom)
+const formHeight =
+  document.getElementById('db-form').offsetHeight + marginTop + marginBottom
 
-const display = new Display(800, 600)
+console.log('Form height:', formHeight)
+const displayHeight = window.innerHeight - formHeight
+const display = new Display(displayWidth, displayHeight)
+
+/* ----------------- Game Objects Setup ----------------- */
 const maze = new Maze(
   [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -30,6 +45,7 @@ const maze = new Maze(
   ],
   display
 )
+const joystick = new Joystick()
 const player = new Entity(100, 155, 50, 50, 'red', 2, 'sprites/pac-man.png')
 const enemies = await getEnemies(Database, 'enemies')
 enemies.forEach((enemy) => enemy.randomizePosition(maze))
@@ -112,6 +128,11 @@ async function game(timeSinceLastFrame) {
 }
 
 /* ----------------- Event Listeners ----------------- */
+window.addEventListener('resize', () => {
+  const windowWidth = window.innerWidth
+  console.log('Current window width:', windowWidth)
+})
+
 // Event listener for the update button (only show when user collects a fruit)
 document
   .getElementById('update-button')
