@@ -28,7 +28,13 @@ const formHeight =
   document.getElementById('db-form').offsetHeight + marginTop + marginBottom
 
 console.log('Form height:', formHeight)
-const displayHeight = window.innerHeight - formHeight
+
+const gameCanvas = document.getElementById('game-canvas')
+const gameCanvasStyle = getComputedStyle(gameCanvas)
+const gameCanvasMarginTop = parseInt(gameCanvasStyle.marginTop)
+const gameCanvasMarginBottom = parseInt(gameCanvasStyle.marginBottom)
+const displayHeight =
+  window.innerHeight - formHeight - gameCanvasMarginTop - gameCanvasMarginBottom
 const display = new Display(displayWidth, displayHeight)
 
 /* ----------------- Game Objects Setup ----------------- */
