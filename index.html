@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pac-Man</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <form id="db-form">
@@ -28,3 +29,63 @@
     <script type="module" src="game.js"></script>
   </body>
 </html>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+
+  #db-form,
+  #update-form {
+    margin: 20px auto;
+    width: 300px;
+  }
+
+  input[type='text'] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #ffd700;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffd700;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #ffa500;
+  }
+
+  #game-canvas {
+    display: block;
+    margin: 20px auto;
+    background-color: black;
+    border: 2px solid #ffd700;
+  }
+
+  #enemy-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #enemy-list li {
+    background-color: #ffd700;
+    color: black;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+  }
+</style>
