@@ -2,18 +2,24 @@ import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
 
 class Enemy extends Entity {
-  constructor(x, y, width, height, color, speed, name, docId) {
-    super(x, y, width, height, color, speed)
+  constructor(
+    x,
+    y,
+    width,
+    height,
+    color,
+    speed,
+    name,
+    docId,
+    spritePath = null
+  ) {
+    super(x, y, width, height, color, speed, spritePath)
 
     this.name = name
     this.docId = docId
   }
 
-  draw(display) {
-    // Draw the enemy
-    display.drawRectangle(this.x, this.y, this.width, this.height, this.color)
-
-    // Draw name
+  drawName(display) {
     display.context.font = 'bold 20px Arial'
     display.context.fillStyle = 'red'
     display.context.textAlign = 'center'
@@ -78,23 +84,54 @@ async function getEnemies(Database, collectionName) {
 
   enemyData.forEach((enemy) => {
     enemies.push(
-      new Enemy(100, 100, 50, 50, 'blue', 2, enemy.name, enemy.docId)
+      new Enemy(
+        100,
+        100,
+        50,
+        50,
+        'blue',
+        2,
+        enemy.name,
+        enemy.docId,
+        enemy.spritePath
+      )
     )
   })
 
   return enemies
 }
 
-async function createEnemy(enemyName, Database, collectionName) {
+async function createEnemy(
+  enemyName,
+  enemySpritePath,
+  Database,
+  collectionName
+) {
   // Add the enemy to the database
-  const docId = await Database.post(collectionName, { name: enemyName })
+  const docId = await Database.post(collectionName, {
+    name: enemyName,
+    spritePath: enemySpritePath,
+  })
 
   // TODO if the addition fails, the enemy should not be added
-  return new Enemy(100, 100, 50, 50, 'blue', 2, enemyName, docId)
+  return new Enemy(
+    100,
+    100,
+    50,
+    50,
+    'blue',
+    2,
+    enemyName,
+    docId,
+    enemySpritePath
+  )
 }
 
-async function updateEnemy(enemyId, newName, Database, collectionName) {
-  await Database.put(collectionName, enemyId, { name: newName })
+async function updateEnemy(enemy, newName, Database, collectionName) {
+  await Database.put(collectionName, enemy.docId, {
+    name: newName,
+    spritePath: enemy.sprite.src,
+  })
 
   // TODO if the update fails, the enemy should not be updated
   return true
