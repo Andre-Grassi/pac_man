@@ -75,13 +75,14 @@ async function game(timeSinceLastFrame) {
     // to make the movement smooth and independent of the frame rate
     deltaTime = currentTime - timeSinceLastFrame
 
-    // Move player, that is limited by the maze tiles
-    joystick.moveEntity(player, [...maze.wallObjects])
+    // Get non-null wall objects from the maze
+    const wallObjects = maze.wallObjects.flat().filter((tile) => tile)
+
+    // Move player, that is limited by the maze walls
+    joystick.moveEntity(player, wallObjects)
 
     // Move enemies
-    enemies.forEach((object) =>
-      object.evadePlayer(player, [...maze.wallObjects])
-    )
+    enemies.forEach((object) => object.evadePlayer(player, wallObjects))
 
     // Check collision with enemies
     let enemiesCollided = player.getCollidingArray(enemies)
@@ -128,10 +129,27 @@ async function game(timeSinceLastFrame) {
 }
 
 /* ----------------- Event Listeners ----------------- */
-window.addEventListener('resize', () => {
-  const windowWidth = window.innerWidth
-  console.log('Current window width:', windowWidth)
-})
+window.addEventListener('resize', resizeDisplay)
+
+function resizeDisplay() {
+  console.log('resizing')
+  const body = document.querySelector('body')
+  const windowWidth = body.offsetWidth
+  let displayWidth = windowWidth
+
+  // Limit the canvas width to 800px
+  if (windowWidth > 800) displayWidth = 800
+
+  // Calculate display height
+  const form = document.getElementById('db-form')
+  const formHeight = getElementHeight(form)
+  const gameCanvas = document.getElementById('game-canvas')
+  const gameCanvasMarginsHeight = getElementMarginsHeight(gameCanvas)
+  const displayHeight =
+    window.innerHeight - formHeight - gameCanvasMarginsHeight
+  display.resize(displayWidth, displayHeight)
+  maze.resize(display)
+}
 
 // Event listener for the update button (only show when user collects a fruit)
 document
