@@ -46,7 +46,17 @@ const maze = new Maze(
   display
 )
 const joystick = new Joystick()
-const player = new Entity(100, 155, 50, 50, 'red', 2, 'sprites/pac-man.png')
+const playerStartingPosition = maze.findFreeSpot()
+console.log(playerStartingPosition)
+const player = new Entity(
+  playerStartingPosition.x,
+  playerStartingPosition.y,
+  50,
+  50,
+  'red',
+  2,
+  'sprites/pac-man.png'
+)
 const enemies = await getEnemies(Database, 'enemies')
 enemies.forEach((enemy) => enemy.randomizePosition(maze))
 const enemySpritePaths = [
