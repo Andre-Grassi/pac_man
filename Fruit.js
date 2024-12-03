@@ -10,8 +10,8 @@ class Fruit {
     this.fruits = []
   }
 
-  draw(display) {
-    this.fruits.forEach((fruit) => fruit.draw(display))
+  drawRectangle(display) {
+    this.fruits.forEach((fruit) => fruit.drawRectangle(display))
   }
 
   spawnFruit(maze) {
