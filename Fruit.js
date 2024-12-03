@@ -40,6 +40,17 @@ class Fruit {
     }
   }
 
+  removeFruit(fruit, maze) {
+    // Remove the fruit from the fruit array
+    this.fruits.splice(this.fruits.indexOf(fruit), 1)
+
+    // Set tile to be empty again
+    const index = maze.getIndexFromCoordinates(fruit.x, fruit.y)
+    console.log(index)
+
+    maze.mazeArray[index.row][index.col] = TileType.EMPTY
+  }
+
   // Delete a fruit when the player collides with it
   checkAndRemoveCollidedFruits(player, maze) {
     let collided = false
@@ -47,14 +58,7 @@ class Fruit {
     // Check collision with fruits to delete them
     const fruitsCollided = player.getCollidingArray(this.fruits)
     fruitsCollided.forEach((object) => {
-      // Remove the fruit from the fruit array
-      this.fruits.splice(this.fruits.indexOf(object), 1)
-
-      // Set tile to be empty again
-      const row = object.y / maze.tileHeight
-      const col = object.x / maze.tileWidth
-
-      maze.mazeArray[row][col] = TileType.EMPTY
+      this.removeFruit(object, maze)
 
       collided = true
     })
