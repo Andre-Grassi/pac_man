@@ -200,8 +200,13 @@ document
 
 /* ----------------- Create/Delete Enemy Form ----------------- */
 async function handleCreateEnemy() {
+  const inputElement = document.getElementById('input-name')
+
   // Get value from input
-  const inputName = document.getElementById('input-name').value
+  const inputName = inputElement.value
+
+  // Clear input text
+  inputElement.value = ''
 
   // Get random sprite path for the new enemy
   const randomIndex = Math.floor(Math.random() * enemySpritePaths.length)
@@ -220,7 +225,13 @@ async function handleCreateEnemy() {
 }
 
 async function handleDeleteEnemy() {
-  const inputName = document.getElementById('input-name').value
+  const inputElement = document.getElementById('input-name')
+
+  // Get value from input
+  const inputName = inputElement.value
+
+  // Clear input text
+  inputElement.value = ''
 
   // Search for the enemy with the given name
   const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
@@ -265,8 +276,13 @@ function showEnemyList() {
 }
 
 async function handleUpdateEnemy() {
+  const inputElement = document.getElementById('update-input')
+
   // Get value from input
-  const newName = document.getElementById('update-input').value
+  const newName = inputElement.value
+
+  // Clear input text
+  inputElement.value = ''
 
   // Update the enemy in the database
   let updated = await updateEnemy(selectedEnemy, newName, Database, 'enemies')
