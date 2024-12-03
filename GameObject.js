@@ -17,6 +17,17 @@ class GameObject {
     display.drawRectangle(this.x, this.y, this.width, this.height, this.color)
   }
 
+  drawRectangleBorder(display, color, lineWidth = 1) {
+    display.drawRectangleBorder(
+      this.x,
+      this.y,
+      this.width,
+      this.height,
+      color,
+      lineWidth
+    )
+  }
+
   drawSprite(display) {
     display.context.drawImage(
       this.sprite,
