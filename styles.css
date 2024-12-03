@@ -22,7 +22,6 @@ body {
 #update-form {
   width: 18.75rem;
   position: absolute;
-  left: 50%;
 
   background-color: rgba(71, 57, 0, 0.8);
   padding: 1rem;
@@ -87,4 +86,11 @@ button:hover {
   display: flex;
   align-items: center;
   font-size: small;
+}
+
+.center {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
