@@ -1,15 +1,30 @@
 class GameObject {
-  constructor(x, y, width, height, color, speed) {
+  constructor(x, y, width, height, color, speed, spritePath = null) {
     this.x = x
     this.y = y
     this.width = width
     this.height = height
     this.color = color
     this.speed = speed
+
+    if (spritePath) {
+      this.sprite = new Image(width, height)
+      this.sprite.src = spritePath
+    }
   }
 
-  draw(display) {
+  drawRectangle(display) {
     display.drawRectangle(this.x, this.y, this.width, this.height, this.color)
+  }
+
+  drawSprite(display) {
+    display.context.drawImage(
+      this.sprite,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    )
   }
 
   move(direction, deltaTime) {
