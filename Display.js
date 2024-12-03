@@ -14,6 +14,12 @@ class Display {
     this.context.fillRect(x, y, width, height)
   }
 
+  drawRectangleBorder(x, y, width, height, color, lineWidth = 1) {
+    this.context.strokeStyle = color
+    this.context.lineWidth = lineWidth
+    this.context.strokeRect(x, y, width, height)
+  }
+
   clear() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
