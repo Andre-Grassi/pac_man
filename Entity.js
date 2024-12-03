@@ -1,8 +1,8 @@
 import { GameObject, Direction } from './GameObject.js'
 
 class Entity extends GameObject {
-  constructor(x, y, width, height, color, speed) {
-    super(x, y, width, height, color, speed)
+  constructor(x, y, width, height, color, speed, spritePath = null) {
+    super(x, y, width, height, color, speed, spritePath)
   }
 
   // Check if the entity can move to a certain direction without colliding with
