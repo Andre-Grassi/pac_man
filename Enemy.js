@@ -2,6 +2,7 @@ import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
 
 const enemySpeed = 1.6
+
 class Enemy extends Entity {
   constructor(x, y, width, height, color, name, docId, spritePath = null) {
     super(x, y, width, height, color, enemySpeed, spritePath)
@@ -11,6 +12,7 @@ class Enemy extends Entity {
     this.docId = docId
   }
 
+  // Draw the enemy name above it
   drawName(display) {
     display.context.font = 'bold 12px Emulogic, Arial'
     display.context.fillStyle = 'red'
@@ -19,6 +21,7 @@ class Enemy extends Entity {
   }
 
   // Randomize enemy position to a free position in the display
+  // If there is no free position, the enemy will not move
   randomizePosition(maze) {
     const randomPosition = getRandomPosition(maze)
 
@@ -69,17 +72,24 @@ class Enemy extends Entity {
   }
 }
 
-async function getEnemies(Database, collectionName) {
+// Get all enemies from the database
+// Return an array with all enemies
+// Return null if no enemies have been retrieved
+async function getEnemies(Database, collectionName, maze) {
   const enemies = []
   const enemyData = await Database.get(collectionName)
 
   if (!enemyData) return null
 
   enemyData.forEach((enemy) => {
+    const randomPosition = getRandomPosition(maze)
+
+    if (!randomPosition) return null
+
     enemies.push(
       new Enemy(
-        100,
-        100,
+        randomPosition.x,
+        randomPosition.y,
         50,
         50,
         'blue',
