@@ -74,7 +74,7 @@ function findFreeSpotFruit(maze) {
   let freeSpots = []
   for (let row = 0; row < maze.mazeArray.length; row++) {
     for (let col = 0; col < maze.mazeArray[row].length; col++) {
-      if (maze.mazeArray[row][col] === 0) {
+      if (maze.mazeArray[row][col] === TileType.EMPTY) {
         freeSpots.push({ row: row, col: col })
       }
     }
