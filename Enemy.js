@@ -1,5 +1,6 @@
 import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
+import { TileType } from './Maze.js'
 
 const enemySpeed = 1.6
 
@@ -164,7 +165,7 @@ function findFreeSpotEnemy(maze) {
   let freeSpots = []
   for (let row = 0; row < maze.mazeArray.length; row++) {
     for (let col = 0; col < maze.mazeArray[row].length; col++) {
-      if (maze.mazeArray[row][col] !== 1) {
+      if (maze.mazeArray[row][col] !== TileType.WALL) {
         freeSpots.push({ row: row, col: col })
       }
     }
