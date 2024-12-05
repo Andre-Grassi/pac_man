@@ -73,7 +73,6 @@ const enemySpritePaths = [
 
 const fruits = new Fruit(50, 50, 'green', './sprites/fruit.png')
 
-let deltaTime = 0
 player.drawRectangle(display)
 
 let selectedEnemy = null
