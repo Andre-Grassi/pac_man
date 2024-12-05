@@ -18,14 +18,13 @@ class Enemy extends Entity {
     display.context.fillText(this.name, this.x + this.width / 2, this.y - 10)
   }
 
-  // Randomize enemy position in a free spot in the maze (fruit spot is also
-  // considered a free spot)
+  // Randomize enemy position to a free position in the display
   randomizePosition(maze) {
-    const freeSpot = findFreeSpotEnemy(maze)
+    const randomPosition = getRandomPosition(maze)
 
-    if (freeSpot) {
-      this.x = freeSpot.col * maze.tileWidth
-      this.y = freeSpot.row * maze.tileHeight
+    if (randomPosition) {
+      this.x = randomPosition.x
+      this.y = randomPosition.y
     }
   }
 
@@ -98,7 +97,8 @@ async function createEnemy(
   enemyName,
   enemySpritePath,
   Database,
-  collectionName
+  collectionName,
+  maze
 ) {
   // Turn name into lowercase for padronization
   enemyName = enemyName.toLowerCase()
@@ -111,7 +111,20 @@ async function createEnemy(
 
   if (!docId) return null
 
-  return new Enemy(100, 100, 50, 50, 'blue', enemyName, docId, enemySpritePath)
+  const position = getRandomPosition(maze)
+
+  if (!position) return null
+
+  return new Enemy(
+    position.x,
+    position.y,
+    50,
+    50,
+    'blue',
+    enemyName,
+    docId,
+    enemySpritePath
+  )
 }
 
 async function updateEnemy(enemy, newName, Database, collectionName) {
@@ -134,6 +147,9 @@ async function deleteEnemy(enemyId, Database, collectionName) {
 }
 
 // Find a free spot to place a enemy (fruit spot is also considered a free spot)
+// Return an object with row and col properties, representing the selected cell
+// of the maze array
+// Return null if there are no free spots
 function findFreeSpotEnemy(maze) {
   let freeSpots = []
   for (let row = 0; row < maze.mazeArray.length; row++) {
@@ -144,7 +160,20 @@ function findFreeSpotEnemy(maze) {
     }
   }
 
+  if (freeSpots.length === 0) return null
+
   return freeSpots[Math.floor(Math.random() * freeSpots.length)]
+}
+
+// Get a random free position in the display based on the maze grid
+// Return an object with x and y properties
+// Return null if there are no free spots
+function getRandomPosition(maze) {
+  const freeSpot = findFreeSpotEnemy(maze)
+
+  if (!freeSpot) return null
+
+  return { x: freeSpot.col * maze.tileWidth, y: freeSpot.row * maze.tileHeight }
 }
 
 export { Enemy, getEnemies, createEnemy, updateEnemy, deleteEnemy }
