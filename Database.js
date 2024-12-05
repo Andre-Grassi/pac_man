@@ -20,6 +20,7 @@ const Database = {
       return data
     } catch (e) {
       console.error('Error getting: ', e)
+      return null
     }
   },
 
@@ -30,6 +31,7 @@ const Database = {
       return docRef.id
     } catch (e) {
       console.error('Error posting: ', e)
+      return null
     }
   },
 
@@ -37,8 +39,10 @@ const Database = {
     try {
       const docRef = doc(db, collectionName, docId)
       await setDoc(docRef, objectData)
+      return true
     } catch (e) {
       console.error('Error putting: ', e)
+      return false
     }
   },
 
@@ -46,8 +50,10 @@ const Database = {
     try {
       const docRef = doc(db, collectionName, docId)
       await deleteDoc(docRef)
+      return true
     } catch (e) {
       console.error('Error deleting: ', e)
+      return false
     }
   },
 }
