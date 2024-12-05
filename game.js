@@ -29,6 +29,7 @@ const formHeight = getElementHeight(form)
 const gameCanvas = document.getElementById('game-canvas')
 const gameCanvasMarginsHeight = getElementMarginsHeight(gameCanvas)
 const displayHeight = window.innerHeight - formHeight - gameCanvasMarginsHeight
+
 const display = new Display(displayWidth, displayHeight)
 
 /* ----------------- Game Objects Setup ----------------- */
@@ -48,13 +49,14 @@ const maze = new Maze(
 const joystick = new Joystick()
 const playerStartingPosition = maze.findFreeSpot()
 console.log(playerStartingPosition)
+const playerSpeed = 2.5
 const player = new Entity(
   playerStartingPosition.x,
   playerStartingPosition.y,
   50,
   50,
   'red',
-  2,
+  playerSpeed,
   'sprites/pac-man.png'
 )
 const enemies = await getEnemies(Database, 'enemies')

@@ -1,20 +1,12 @@
 import Entity from './Entity.js'
 import { Direction } from './GameObject.js'
 
+const enemySpeed = 1.6
 class Enemy extends Entity {
-  constructor(
-    x,
-    y,
-    width,
-    height,
-    color,
-    speed,
-    name,
-    docId,
-    spritePath = null
-  ) {
-    super(x, y, width, height, color, speed, spritePath)
+  constructor(x, y, width, height, color, name, docId, spritePath = null) {
+    super(x, y, width, height, color, enemySpeed, spritePath)
 
+    this.speed = enemySpeed
     this.name = name
     this.docId = docId
   }
@@ -90,7 +82,6 @@ async function getEnemies(Database, collectionName) {
         50,
         50,
         'blue',
-        2,
         enemy.name,
         enemy.docId,
         enemy.spritePath
@@ -114,17 +105,7 @@ async function createEnemy(
   })
 
   // TODO if the addition fails, the enemy should not be added
-  return new Enemy(
-    100,
-    100,
-    50,
-    50,
-    'blue',
-    2,
-    enemyName,
-    docId,
-    enemySpritePath
-  )
+  return new Enemy(100, 100, 50, 50, 'blue', enemyName, docId, enemySpritePath)
 }
 
 async function updateEnemy(enemy, newName, Database, collectionName) {
