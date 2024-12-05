@@ -139,48 +139,17 @@ async function game(timeSinceLastFrame) {
 }
 
 /* ----------------- Event Listeners ----------------- */
+// Event listener for the resize event
 let resizing = false
 window.addEventListener('resize', resizeDisplay)
 
-function resizeDisplay() {
-  if (resizing) return
-  resizing = true
-  console.log('resizing')
-  const body = document.querySelector('body')
-  const windowWidth = body.offsetWidth
-  let displayWidth = windowWidth
+// Event listener for the update form (only show when user collects a fruit)
+document
+  .getElementById('update-form')
+  .addEventListener('submit', function (event) {
+    event.preventDefault()
+  })
 
-  // Limit the canvas width to 800px
-  if (windowWidth > 800) displayWidth = 800
-
-  // Calculate display height
-  const form = document.getElementById('db-form')
-  const formHeight = getElementHeight(form)
-  const gameCanvas = document.getElementById('game-canvas')
-  const gameCanvasMarginsHeight = getElementMarginsHeight(gameCanvas)
-  const displayHeight =
-    window.innerHeight - formHeight - gameCanvasMarginsHeight
-  display.resize(displayWidth, displayHeight)
-  maze.resize(display)
-
-  // Reposition enemies
-  enemies.forEach((enemy) => enemy.randomizePosition(maze))
-
-  // Delete fruits
-  fruits.fruits.forEach((fruit) => fruits.removeFruit(fruit, maze))
-
-  // Spawn new fruits
-  fruits.spawnFruit(maze)
-
-  // Reposition player
-  const playerPosition = maze.findFreeSpot()
-  player.x = playerPosition.x
-  player.y = playerPosition.y
-
-  resizing = false
-}
-
-// Event listener for the update button (only show when user collects a fruit)
 document
   .getElementById('update-button')
   .addEventListener('click', handleUpdateEnemy)
@@ -198,7 +167,7 @@ document
   .getElementById('delete-button')
   .addEventListener('click', handleDeleteEnemy)
 
-/* ----------------- Create/Delete Enemy Form ----------------- */
+/* ----------------- Event Handlers ----------------- */
 async function handleCreateEnemy() {
   const inputElement = document.getElementById('input-name')
 
@@ -244,7 +213,6 @@ async function handleDeleteEnemy() {
   if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
 }
 
-/* ----------------- Update Enemy Form ----------------- */
 // Show the list of enemies to update and a form to update them
 function showEnemyList() {
   // Make the form element visible
@@ -299,6 +267,44 @@ async function handleUpdateEnemy() {
 
   // Hide the list of enemies again
   document.getElementById('update-form').style.visibility = 'hidden'
+}
+
+function resizeDisplay() {
+  if (resizing) return
+  resizing = true
+  console.log('resizing')
+  const body = document.querySelector('body')
+  const windowWidth = body.offsetWidth
+  let displayWidth = windowWidth
+
+  // Limit the canvas width to 800px
+  if (windowWidth > 800) displayWidth = 800
+
+  // Calculate display height
+  const form = document.getElementById('db-form')
+  const formHeight = getElementHeight(form)
+  const gameCanvas = document.getElementById('game-canvas')
+  const gameCanvasMarginsHeight = getElementMarginsHeight(gameCanvas)
+  const displayHeight =
+    window.innerHeight - formHeight - gameCanvasMarginsHeight
+  display.resize(displayWidth, displayHeight)
+  maze.resize(display)
+
+  // Reposition enemies
+  enemies.forEach((enemy) => enemy.randomizePosition(maze))
+
+  // Delete fruits
+  fruits.fruits.forEach((fruit) => fruits.removeFruit(fruit, maze))
+
+  // Spawn new fruits
+  fruits.spawnFruit(maze)
+
+  // Reposition player
+  const playerPosition = maze.findFreeSpot()
+  player.x = playerPosition.x
+  player.y = playerPosition.y
+
+  resizing = false
 }
 
 game()
