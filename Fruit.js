@@ -1,6 +1,9 @@
 import { GameObject } from './GameObject.js'
 import { TileType } from './Maze.js'
 
+// Maximum number of fruits that can be placed in the maze at the same time
+const maxFruits = 1
+
 class Fruit {
   constructor(width, height, color, spritePath = null) {
     this.width = width
@@ -22,9 +25,8 @@ class Fruit {
   spawnFruit(maze) {
     const freeSpot = findFreeSpotFruit(maze)
 
-    // Place a fruit in the free spot
-    // Limit the number of fruits to 3
-    if (freeSpot && this.fruits.length < 3) {
+    // Place a fruit in the free spot, limiting  the number of fruits
+    if (freeSpot && this.fruits.length < maxFruits) {
       maze.mazeArray[freeSpot.row][freeSpot.col] = 2
       this.fruits.push(
         new GameObject(
