@@ -1,17 +1,10 @@
 // Game imports
 import Display from './Display.js'
-import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
-import {
-  Enemy,
-  getEnemies,
-  createEnemy,
-  updateEnemy,
-  deleteEnemy,
-} from './Enemy.js'
+import { getEnemies, createEnemy, updateEnemy, deleteEnemy } from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
-import { Maze, TileType } from './Maze.js'
+import { Maze } from './Maze.js'
 import Database from './Database.js'
 
 import { getElementHeight, getElementMarginsHeight } from './css-utils.js'
