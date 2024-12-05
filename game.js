@@ -163,26 +163,23 @@ inputElements.forEach((input) => {
 let resizing = false
 window.addEventListener('resize', resizeDisplay)
 
-// Event listener for the update form (only show when user collects a fruit)
+// Event listeners for the update form (only show when user collects a fruit)
 document
   .getElementById('update-form')
   .addEventListener('submit', function (event) {
     event.preventDefault()
   })
-
 document
   .getElementById('update-button')
   .addEventListener('click', handleUpdateEnemy)
 
-// Event listeneres for the form of adding and deleting enemies
+// Event listeners for the form of adding and deleting enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
 })
-
 document
   .getElementById('create-button')
   .addEventListener('click', handleCreateEnemy)
-
 document
   .getElementById('delete-button')
   .addEventListener('click', handleDeleteEnemy)
