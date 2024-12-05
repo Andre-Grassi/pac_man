@@ -205,7 +205,8 @@ async function handleCreateEnemy() {
     inputName,
     enemySpritePaths[randomIndex],
     Database,
-    'enemies'
+    'enemies',
+    maze
   )
 
   if (!newEnemy) return
