@@ -229,11 +229,13 @@ async function handleDeleteEnemy() {
   // Search for the enemy with the given name
   const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
 
-  // Delete the enemy from the database
-  const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
+  if (enemyToDelete) {
+    // Delete the enemy from the database
+    const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
 
-  // Remove the enemy from the enemies array
-  if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
+    // Remove the enemy from the enemies array
+    if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
+  }
 }
 
 // Show the list of enemies to update and a form to update them
