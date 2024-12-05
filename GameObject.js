@@ -34,7 +34,7 @@ class GameObject {
 
   // Move the game object in a certain direction
   // The available directions are in the Direction object
-  move(direction, deltaTime) {
+  move(direction) {
     switch (direction) {
       case Direction.UP:
         this.y -= this.speed
