@@ -29,13 +29,7 @@ class GameObject {
   }
 
   drawSprite(display) {
-    display.context.drawImage(
-      this.sprite,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    )
+    display.drawSprite(this.x, this.y, this.width, this.height, this.sprite)
   }
 
   move(direction, deltaTime) {
