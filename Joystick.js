@@ -8,6 +8,8 @@ class Joystick {
     this.up = false
     this.down = false
 
+    this.enable = true
+
     // Add event listeners to the window object to detect key presses
     window.addEventListener('keydown', (event) => {
       this.setKeyState(event.keyCode, true)
@@ -16,6 +18,14 @@ class Joystick {
     window.addEventListener('keyup', (event) => {
       this.setKeyState(event.keyCode, false)
     })
+  }
+
+  enableJoystick() {
+    this.enable = true
+  }
+
+  disableJoystick() {
+    this.enable = false
   }
 
   setKeyState(keyCode, state) {
@@ -44,6 +54,8 @@ class Joystick {
   }
 
   moveEntity(entity, collisionObjects) {
+    if (!this.enable) return
+
     if (this.up) entity.move(Direction.UP, collisionObjects)
     if (this.down) entity.move(Direction.DOWN, collisionObjects)
     if (this.left) entity.move(Direction.LEFT, collisionObjects)
