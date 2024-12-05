@@ -214,7 +214,10 @@ async function handleDeleteEnemy() {
   const inputElement = document.getElementById('input-name')
 
   // Get value from input
-  const inputName = inputElement.value
+  let inputName = inputElement.value
+
+  // Turn input name into lowercase for padronization
+  inputName = inputName.toLowerCase()
 
   // Clear input text
   inputElement.value = ''
