@@ -1,5 +1,6 @@
 import { Direction } from './GameObject.js'
 
+// Class that captures and stores key states for the movement of entities
 class Joystick {
   constructor() {
     // Initialize the key states
@@ -49,6 +50,9 @@ class Joystick {
     }
   }
 
+  // Move the entity in the direction of the pressed keys
+  // The collisionObjects array is used to check for collisions and prevent the
+  // entity from moving into the collided objects
   moveEntity(entity, collisionObjects) {
     if (!this.enable) return
 
