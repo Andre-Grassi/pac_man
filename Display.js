@@ -9,17 +9,20 @@ class Display {
     this.context = this.canvas.getContext('2d')
   }
 
+  // Draw a rectangle on the canvas
   drawRectangle(x, y, width, height, color) {
     this.context.fillStyle = color
     this.context.fillRect(x, y, width, height)
   }
 
+  // Draw a rectangle border on the canvas
   drawRectangleBorder(x, y, width, height, color, lineWidth = 1) {
     this.context.strokeStyle = color
     this.context.lineWidth = lineWidth
     this.context.strokeRect(x, y, width, height)
   }
 
+  // Resize the canvas
   resize(width, height) {
     this.canvas.width = width
     this.canvas.height = height
