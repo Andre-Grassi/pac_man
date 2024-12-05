@@ -98,6 +98,9 @@ async function createEnemy(
   Database,
   collectionName
 ) {
+  // Turn name into lowercase for padronization
+  enemyName = enemyName.toLowerCase()
+
   // Add the enemy to the database
   const docId = await Database.post(collectionName, {
     name: enemyName,
@@ -109,6 +112,9 @@ async function createEnemy(
 }
 
 async function updateEnemy(enemy, newName, Database, collectionName) {
+  // Turn name into lowercase for padronization
+  newName = newName.toLowerCase()
+
   await Database.put(collectionName, enemy.docId, {
     name: newName,
     spritePath: enemy.sprite.src,
