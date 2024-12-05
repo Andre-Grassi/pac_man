@@ -32,6 +32,8 @@ class GameObject {
     display.drawSprite(this.x, this.y, this.width, this.height, this.sprite)
   }
 
+  // Move the game object in a certain direction
+  // The available directions are in the Direction object
   move(direction, deltaTime) {
     switch (direction) {
       case Direction.UP:
@@ -51,6 +53,7 @@ class GameObject {
     }
   }
 
+  // Check if the game object is colliding with another game object
   isColliding(otherGameObject) {
     let xIsOverlapping =
       this.x + this.width >= otherGameObject.x &&
