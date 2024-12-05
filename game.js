@@ -141,6 +141,21 @@ async function game(timeSinceLastFrame) {
 }
 
 /* ----------------- Event Listeners ----------------- */
+
+// Event listeners to detect typing
+// Disable joystick when typing in an input field
+// Enable joystick when not typing in an input field
+const inputElements = document.querySelectorAll('input[type="text"]')
+inputElements.forEach((input) => {
+  input.addEventListener('focus', () => {
+    joystick.disableJoystick()
+  })
+
+  input.addEventListener('blur', () => {
+    joystick.enableJoystick()
+  })
+})
+
 // Event listener for the resize event
 let resizing = false
 window.addEventListener('resize', resizeDisplay)
