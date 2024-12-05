@@ -59,11 +59,10 @@ const player = new Entity(
   playerSpeed,
   'sprites/pac-man.png'
 )
-const enemies = await getEnemies(Database, 'enemies')
+const enemies = await getEnemies(Database, 'enemies', maze)
 
 if (!enemies) throw new Error('Could not get enemies from the database')
 
-enemies.forEach((enemy) => enemy.randomizePosition(maze))
 const enemySpritePaths = [
   './sprites/orange-ghost.png',
   './sprites/pink-ghost.png',
