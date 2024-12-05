@@ -74,6 +74,8 @@ async function getEnemies(Database, collectionName) {
   const enemies = []
   const enemyData = await Database.get(collectionName)
 
+  if (!enemyData) return null
+
   enemyData.forEach((enemy) => {
     enemies.push(
       new Enemy(
@@ -107,7 +109,8 @@ async function createEnemy(
     spritePath: enemySpritePath,
   })
 
-  // TODO if the addition fails, the enemy should not be added
+  if (!docId) return null
+
   return new Enemy(100, 100, 50, 50, 'blue', enemyName, docId, enemySpritePath)
 }
 
@@ -115,21 +118,19 @@ async function updateEnemy(enemy, newName, Database, collectionName) {
   // Turn name into lowercase for padronization
   newName = newName.toLowerCase()
 
-  await Database.put(collectionName, enemy.docId, {
+  const status = await Database.put(collectionName, enemy.docId, {
     name: newName,
     spritePath: enemy.sprite.src,
   })
 
-  // TODO if the update fails, the enemy should not be updated
-  return true
+  return status
 }
 
 async function deleteEnemy(enemyId, Database, collectionName) {
   // Delete the enemy from the database
-  await Database.delete(collectionName, enemyId)
+  const status = await Database.delete(collectionName, enemyId)
 
-  // TODO if the deletion fails, the enemy should not be removed
-  return true
+  return status
 }
 
 // Find a free spot to place a enemy (fruit spot is also considered a free spot)
