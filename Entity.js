@@ -35,6 +35,9 @@ class Entity extends GameObject {
     return canMove
   }
 
+  // Move the entity in a certain direction, checking for collisions with the
+  // collisionObjects array
+  // Returns true if the entity moved, false otherwise
   move(direction, collisionObjects) {
     let oldY = this.y // Save the old y position
     let oldX = this.x // Save the old x position
@@ -75,6 +78,10 @@ class Entity extends GameObject {
       default:
         break
     }
+
+    // If x or y is different than the old x or y, the entity moved, so return
+    // true. False othwerwise
+    return oldX !== this.x || oldY !== this.y
   }
 }
 
