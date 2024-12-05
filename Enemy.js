@@ -54,11 +54,10 @@ class Enemy extends Entity {
     // Get direction that maximizes the distance between the player and the
     // enemy
     for (let direction in Direction) {
-      // Check if the movement is not possible
-      if (!this.canMoveTo(Direction[direction], collisionObjects)) continue
-
-      // Move to get the new distance from the player and use for comparison
-      this.move(Direction[direction], collisionObjects)
+      // Move the enemy until it is unable to move in the same direction again
+      // This is used to get the best movement direction in the long run
+      let moved = this.move(Direction[direction], collisionObjects)
+      while (moved) moved = this.move(Direction[direction], collisionObjects)
 
       const newDistanceFromPlayer = Math.sqrt(
         Math.pow(this.x - playerEntity.x, 2) +
@@ -69,6 +68,7 @@ class Enemy extends Entity {
         bestDirection = Direction[direction]
       }
 
+      // Undo the test movement
       this.x = oldX
       this.y = oldY
     }
