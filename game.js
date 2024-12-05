@@ -60,6 +60,9 @@ const player = new Entity(
   'sprites/pac-man.png'
 )
 const enemies = await getEnemies(Database, 'enemies')
+
+if (!enemies) throw new Error('Could not get enemies from the database')
+
 enemies.forEach((enemy) => enemy.randomizePosition(maze))
 const enemySpritePaths = [
   './sprites/orange-ghost.png',
@@ -205,7 +208,8 @@ async function handleCreateEnemy() {
     'enemies'
   )
 
-  // TODO if the addition fails, the enemy should not be added
+  if (!newEnemy) return
+
   // Add the new enemy to the enemies array
   enemies.push(newEnemy)
 }
@@ -228,7 +232,6 @@ async function handleDeleteEnemy() {
   // Delete the enemy from the database
   const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
 
-  // TODO if the deletion fails, the enemy should not be removed
   // Remove the enemy from the enemies array
   if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
 }
