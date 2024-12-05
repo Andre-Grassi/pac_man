@@ -14,7 +14,7 @@ import Joystick from './Joystick.js'
 import { Maze, TileType } from './Maze.js'
 import Database from './Database.js'
 
-import { getElementHeight, getElementMarginsHeight } from './utils.js'
+import { getElementHeight, getElementMarginsHeight } from './css-utils.js'
 
 /* ----------------- Display (canvas) Setup ----------------- */
 const windowWidth = window.innerWidth
