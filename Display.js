@@ -22,6 +22,11 @@ class Display {
     this.context.strokeRect(x, y, width, height)
   }
 
+  // Draw a sprite on the canvas
+  drawSprite(x, y, width, height, spriteImage) {
+    this.context.drawImage(spriteImage, x, y, width, height)
+  }
+
   // Resize the canvas
   resize(width, height) {
     this.canvas.width = width
