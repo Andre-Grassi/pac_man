@@ -1,5 +1,7 @@
 import { GameObject, Direction } from './GameObject.js'
 
+// Class that represents an entity in the game
+// An entity is a being, such as the player or an enemy
 class Entity extends GameObject {
   constructor(x, y, width, height, color, speed, spritePath = null) {
     super(x, y, width, height, color, speed, spritePath)
