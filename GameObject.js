@@ -1,3 +1,11 @@
+// Definition of the directions a game object can move
+const Direction = Object.freeze({
+  UP: 0,
+  DOWN: 1,
+  LEFT: 2,
+  RIGHT: 3,
+})
+
 // Class that represents a game object
 // A game object is an object that can be drawn on the screen
 // It constitues the base class for all other objects in the game
@@ -89,13 +97,5 @@ class GameObject {
     return otherGameObjects.filter((object) => this.isColliding(object))
   }
 }
-
-// Definition of the directions a game object can move
-const Direction = Object.freeze({
-  UP: 0,
-  DOWN: 1,
-  LEFT: 2,
-  RIGHT: 3,
-})
 
 export { GameObject, Direction }
