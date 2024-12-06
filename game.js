@@ -55,11 +55,11 @@ const player = new Entity(
   'sprites/pac-man.png'
 )
 
-// Get user id to store enemies in a specific collection for the current user
-const userId = await Database.getUserId()
-if (!userId) throw new Error('Could not get user ID from the database')
+// Set database for the current user
+const database = new Database()
+await database.initialize()
 
-const enemies = await getEnemies(Database, userId, 'enemies', maze)
+const enemies = await getEnemies(database, 'enemies', maze)
 if (!enemies) throw new Error('Could not get enemies from the database')
 const enemySpritePaths = [
   './sprites/orange-ghost.png',
@@ -111,12 +111,7 @@ async function game(timeSinceLastFrame) {
     // Using for..of loop instead of forEach to use await inside the loop (the
     // deleteEnemy function is asynchronous)
     for (const enemy of enemiesCollided) {
-      const deleted = await deleteEnemy(
-        Database,
-        userId,
-        'enemies',
-        enemy.docId
-      )
+      const deleted = await deleteEnemy(database, 'enemies', enemy.docId)
 
       // Remove the enemy from the enemy array
       if (deleted) enemies.splice(enemies.indexOf(enemy), 1)
@@ -210,8 +205,7 @@ async function handleCreateEnemy() {
   const randomIndex = Math.floor(Math.random() * enemySpritePaths.length)
 
   const newEnemy = await createEnemy(
-    Database,
-    userId,
+    database,
     'enemies',
     inputName,
     enemySpritePaths[randomIndex],
@@ -241,12 +235,7 @@ async function handleDeleteEnemy() {
 
   if (enemyToDelete) {
     // Delete the enemy from the database
-    const deleted = await deleteEnemy(
-      Database,
-      userId,
-      'enemies',
-      enemyToDelete.docId
-    )
+    const deleted = await deleteEnemy(database, 'enemies', enemyToDelete.docId)
 
     // Remove the enemy from the enemies array
     if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
@@ -296,13 +285,7 @@ async function handleUpdateEnemy() {
   inputElement.value = ''
 
   // Update the enemy in the database
-  let updated = await updateEnemy(
-    Database,
-    userId,
-    'enemies',
-    selectedEnemy,
-    newName
-  )
+  let updated = await updateEnemy(database, 'enemies', selectedEnemy, newName)
 
   if (!updated) return
 
