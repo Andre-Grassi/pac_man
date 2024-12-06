@@ -9,8 +9,6 @@ import Database from './Database.js'
 
 import { getElementHeight, getElementMarginsHeight } from './css-utils.js'
 
-const userId = await Database.getUserId()
-
 /* ----------------- Display (canvas) Setup ----------------- */
 const windowWidth = window.innerWidth
 let displayWidth = window.innerWidth
@@ -56,6 +54,10 @@ const player = new Entity(
   playerSpeed,
   'sprites/pac-man.png'
 )
+
+// Get user id to store enemies in a specific collection for the current user
+const userId = await Database.getUserId()
+if (!userId) throw new Error('Could not get user ID from the database')
 
 const enemies = await getEnemies(Database, userId, 'enemies', maze)
 if (!enemies) throw new Error('Could not get enemies from the database')
