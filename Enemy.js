@@ -76,9 +76,9 @@ class Enemy extends Entity {
 // Get all enemies from the database
 // Return an array with all enemies
 // Return null if no enemies have been retrieved
-async function getEnemies(Database, collectionName, maze) {
+async function getEnemies(Database, userId, collectionName, maze) {
   const enemies = []
-  const enemyData = await Database.get(collectionName)
+  const enemyData = await Database.get(userId, collectionName)
 
   if (!enemyData) return null
 
@@ -105,17 +105,18 @@ async function getEnemies(Database, collectionName, maze) {
 }
 
 async function createEnemy(
+  Database,
+  userId,
+  collectionName,
   enemyName,
   enemySpritePath,
-  Database,
-  collectionName,
   maze
 ) {
   // Turn name into lowercase for padronization
   enemyName = enemyName.toLowerCase()
 
   // Add the enemy to the database
-  const docId = await Database.post(collectionName, {
+  const docId = await Database.post(userId, collectionName, {
     name: enemyName,
     spritePath: enemySpritePath,
   })
@@ -138,11 +139,11 @@ async function createEnemy(
   )
 }
 
-async function updateEnemy(enemy, newName, Database, collectionName) {
+async function updateEnemy(Database, userId, collectionName, enemy, newName) {
   // Turn name into lowercase for padronization
   newName = newName.toLowerCase()
 
-  const status = await Database.put(collectionName, enemy.docId, {
+  const status = await Database.put(userId, collectionName, enemy.docId, {
     name: newName,
     spritePath: enemy.sprite.src,
   })
@@ -150,9 +151,9 @@ async function updateEnemy(enemy, newName, Database, collectionName) {
   return status
 }
 
-async function deleteEnemy(enemyId, Database, collectionName) {
+async function deleteEnemy(Database, userId, collectionName, enemyId) {
   // Delete the enemy from the database
-  const status = await Database.delete(collectionName, enemyId)
+  const status = await Database.delete(userId, collectionName, enemyId)
 
   return status
 }
