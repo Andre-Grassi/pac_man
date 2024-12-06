@@ -2,18 +2,31 @@
 const apiEndpoint =
   'https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/users'
 
-// Database object
-// This object contains methods to interact with the Firestore database
+// Database class
+// This class contains methods to interact with the Firestore database
 
 // The database has the following structure:
 // users: a collection of user data
 // users/userId: a document with the user data (the id of the document is the user ID)
 // users/userId/enemies: a collection with documents of enemy data
-const Database = {
+
+// To interact with the database, you need to create a new instance of the
+// Database class and call the initialize method to set the user ID
+class Database {
+  constructor() {
+    this.userId = null
+  }
+
+  // Initialize the database with the user ID
+  async initialize() {
+    this.userId = await this.getUserId()
+    if (!this.userId) throw new Error('Could not get user ID from the database')
+  }
+
   // Get the user ID from database
   // Or create one if it doesn't exist
   // The ID is stored in a cookie called userId in local storage
-  getUserId: async function () {
+  async getUserId() {
     // Access local cookies
     const userId = localStorage.getItem('userId')
     console.log(userId)
@@ -42,14 +55,18 @@ const Database = {
     // Save the user ID in a cookie
     localStorage.setItem('userId', id)
 
+    this.userId = id
+
     return id
-  },
+  }
 
   // Get all documents from a collection
   // Returns an array of objects with the document ID and the data
   // If there's an error, returns null
-  get: async function (userId, collectionName) {
-    const response = await fetch(`${apiEndpoint}/${userId}/${collectionName}`)
+  async get(collectionName) {
+    const response = await fetch(
+      `${apiEndpoint}/${this.userId}/${collectionName}`
+    )
     console.log(response)
     if (!response.ok) {
       console.error('Error fetching from database: ', response)
@@ -69,12 +86,12 @@ const Database = {
     })
 
     return data
-  },
+  }
 
   // Post a new document to a collection
   // Returns the ID of the new document
   // If there's an error, returns null
-  post: async function (userId, collectionName, objectData) {
+  async post(collectionName, objectData) {
     const firestoreData = {
       fields: {
         name: { stringValue: objectData.name },
@@ -82,13 +99,16 @@ const Database = {
       },
     }
 
-    const response = await fetch(`${apiEndpoint}/${userId}/${collectionName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(firestoreData),
-    })
+    const response = await fetch(
+      `${apiEndpoint}/${this.userId}/${collectionName}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(firestoreData),
+      }
+    )
     console.log(response)
 
     if (!response.ok) {
@@ -100,13 +120,13 @@ const Database = {
     const id = responseData.name.split('/').pop()
 
     return id
-  },
+  }
 
   // Put (update) a document in a collection
   // The docId parameter is the ID of the document to update
   // The objectData parameter is the new data to update the document
   // Returns true if the operation was successful, false otherwise
-  put: async function (userId, collectionName, docId, objectData) {
+  async put(collectionName, docId, objectData) {
     const firestoreData = {
       fields: {
         name: { stringValue: objectData.name },
@@ -115,7 +135,7 @@ const Database = {
     }
 
     const response = await fetch(
-      `${apiEndpoint}/${userId}/${collectionName}/${docId}`,
+      `${apiEndpoint}/${this.userId}/${collectionName}/${docId}`,
       {
         method: 'PATCH', // Use PATCH to update an existing document
         headers: {
@@ -131,14 +151,14 @@ const Database = {
     }
 
     return true
-  },
+  }
 
   // Delete a document from a collection
   // The docId parameter is the ID of the document to delete
   // Returns true if the operation was successful, false otherwise
-  delete: async function (userId, collectionName, docId) {
+  async delete(collectionName, docId) {
     const response = await fetch(
-      `${apiEndpoint}/${userId}/${collectionName}/${docId}`,
+      `${apiEndpoint}/${this.userId}/${collectionName}/${docId}`,
       {
         method: 'DELETE',
       }
@@ -150,7 +170,7 @@ const Database = {
     }
 
     return true
-  },
+  }
 }
 
 export default Database
