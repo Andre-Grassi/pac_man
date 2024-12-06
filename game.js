@@ -1,20 +1,13 @@
 // Game imports
 import Display from './Display.js'
-import { GameObject, Direction } from './GameObject.js'
 import Entity from './Entity.js'
-import {
-  Enemy,
-  getEnemies,
-  createEnemy,
-  updateEnemy,
-  deleteEnemy,
-} from './Enemy.js'
+import { getEnemies, createEnemy, updateEnemy, deleteEnemy } from './Enemy.js'
 import Fruit from './Fruit.js'
 import Joystick from './Joystick.js'
-import { Maze, TileType } from './Maze.js'
+import { Maze } from './Maze.js'
 import Database from './Database.js'
 
-import { getElementHeight, getElementMarginsHeight } from './utils.js'
+import { getElementHeight, getElementMarginsHeight } from './css-utils.js'
 
 /* ----------------- Display (canvas) Setup ----------------- */
 const windowWidth = window.innerWidth
@@ -46,9 +39,11 @@ const maze = new Maze(
   ],
   display
 )
+
+// Joystick for player control
 const joystick = new Joystick()
+
 const playerStartingPosition = maze.findFreeSpot()
-console.log(playerStartingPosition)
 const playerSpeed = 2.5
 const player = new Entity(
   playerStartingPosition.x,
@@ -59,11 +54,9 @@ const player = new Entity(
   playerSpeed,
   'sprites/pac-man.png'
 )
-const enemies = await getEnemies(Database, 'enemies')
 
+const enemies = await getEnemies(Database, 'enemies', maze)
 if (!enemies) throw new Error('Could not get enemies from the database')
-
-enemies.forEach((enemy) => enemy.randomizePosition(maze))
 const enemySpritePaths = [
   './sprites/orange-ghost.png',
   './sprites/pink-ghost.png',
@@ -71,15 +64,22 @@ const enemySpritePaths = [
   './sprites/aqua-ghost.png',
 ]
 
+// Create array of fruits to be collected
 const fruits = new Fruit(50, 50, 'green', './sprites/fruit.png')
 
 let deltaTime = 0
-player.drawRectangle(display)
 
+// Indicate the enemy selected to update in the update form
 let selectedEnemy = null
 
+// Indicate whether the game is paused or not
 let paused = false
 
+// Indicate whether the display is being resized or not
+let resizing = false
+
+// Game loop
+// This is responsible for the game logic and rendering
 async function game(timeSinceLastFrame) {
   if (!paused && !resizing) {
     // Get current time
@@ -104,7 +104,7 @@ async function game(timeSinceLastFrame) {
 
     // Iterate over the enemies that collided with the player and delete them
     // from the database and the enemies array
-    // Using for of loop instead of forEach to use await inside the loop (the
+    // Using for..of loop instead of forEach to use await inside the loop (the
     // deleteEnemy function is asynchronous)
     for (const enemy of enemiesCollided) {
       const deleted = await deleteEnemy(enemy.docId, Database, 'enemies')
@@ -127,12 +127,11 @@ async function game(timeSinceLastFrame) {
       showEnemyList()
     }
 
-    // updateEnemyList()
-
     display.clear()
+
+    // Draw the game objects
     maze.draw(display)
     player.drawSprite(display)
-
     fruits.drawSprite(display)
     enemies.forEach((enemy) => {
       enemy.drawSprite(display)
@@ -140,6 +139,10 @@ async function game(timeSinceLastFrame) {
     })
   }
 
+  // requestAnimationFrame schedules the game function to be called
+  // before the next repaint.
+  // This creates a loop that allows the game to update and render smoothly
+  // at the refresh rate of the display.
   requestAnimationFrame(game)
 }
 
@@ -160,7 +163,6 @@ inputElements.forEach((input) => {
 })
 
 // Event listener for the resize event
-let resizing = false
 window.addEventListener('resize', resizeDisplay)
 
 // Event listeners for the update form (only show when user collects a fruit)
@@ -202,7 +204,8 @@ async function handleCreateEnemy() {
     inputName,
     enemySpritePaths[randomIndex],
     Database,
-    'enemies'
+    'enemies',
+    maze
   )
 
   if (!newEnemy) return
@@ -226,11 +229,13 @@ async function handleDeleteEnemy() {
   // Search for the enemy with the given name
   const enemyToDelete = enemies.find((enemy) => enemy.name === inputName)
 
-  // Delete the enemy from the database
-  const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
+  if (enemyToDelete) {
+    // Delete the enemy from the database
+    const deleted = await deleteEnemy(enemyToDelete.docId, Database, 'enemies')
 
-  // Remove the enemy from the enemies array
-  if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
+    // Remove the enemy from the enemies array
+    if (deleted) enemies.splice(enemies.indexOf(enemyToDelete), 1)
+  }
 }
 
 // Show the list of enemies to update and a form to update them
