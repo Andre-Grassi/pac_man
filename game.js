@@ -111,7 +111,6 @@ async function game(timeSinceLastFrame) {
 
       // Remove the enemy from the enemy array
       if (deleted) enemies.splice(enemies.indexOf(enemy), 1)
-      console.log(enemies)
     }
 
     // Find a free spot to place a fruit
@@ -200,7 +199,6 @@ async function handleCreateEnemy() {
 
   // Get random sprite path for the new enemy
   const randomIndex = Math.floor(Math.random() * enemySpritePaths.length)
-  console.log(randomIndex)
 
   const newEnemy = await createEnemy(
     inputName,
@@ -291,6 +289,9 @@ async function handleUpdateEnemy() {
   const enemyToUpdate = enemies.find(
     (enemy) => enemy.docId === selectedEnemy.docId
   )
+
+  if (!enemyToUpdate) return
+
   enemyToUpdate.name = newName
 
   paused = false
@@ -302,7 +303,6 @@ async function handleUpdateEnemy() {
 function resizeDisplay() {
   if (resizing) return
   resizing = true
-  console.log('resizing')
   const body = document.querySelector('body')
   const windowWidth = body.offsetWidth
   let displayWidth = windowWidth

@@ -48,7 +48,6 @@ class Fruit {
 
     // Set tile to be empty again
     const index = maze.getIndexFromCoordinates(fruit.x, fruit.y)
-    console.log(index)
 
     maze.mazeArray[index.row][index.col] = TileType.EMPTY
   }
