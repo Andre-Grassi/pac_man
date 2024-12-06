@@ -6,7 +6,7 @@ This is a simple Pac-Man game implemented using HTML5, JavaScript, and the Fireb
 - [Pac-Man Game](#pac-man-game)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
-  - [Installation](#installation)
+  - [Playing](#playing)
   - [Usage](#usage)
   - [Game Controls](#game-controls)
   - [Implementation Overview](#implementation-overview)
@@ -18,14 +18,8 @@ This is a simple Pac-Man game implemented using HTML5, JavaScript, and the Fireb
 - Dynamic resizing of the game canvas.
 - Persistent data storage using Firebase Firestore.
 
-## Installation
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/yourusername/pac-man-game.git
-    cd pac-man-game
-    ```
-
-2. Open `index.html` in your web browser to start the game.
+## Playing
+You can just open the github page of the project [here](https://andre-grassi.github.io/pac_man/).
 
 ## Usage
 - Use the input form at the top of the page to create or delete enemies.
