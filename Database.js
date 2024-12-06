@@ -1,6 +1,6 @@
 // Endpoint to communicate with the Firestore database
 const apiEndpoint =
-  'https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents'
+  'https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/users'
 
 // Database object
 // This object contains methods to interact with the Firestore database
@@ -21,13 +21,13 @@ const Database = {
     // If the cookie is not set, create a new user ID
     let response
     if (!userId)
-      response = await fetch(`${apiEndpoint}/users`, {
+      response = await fetch(`${apiEndpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       })
-    else response = await fetch(`${apiEndpoint}/users/${userId}`)
+    else response = await fetch(`${apiEndpoint}/${userId}`)
 
     if (!response.ok) {
       console.error('Error fetching user ID: ', response)
@@ -49,9 +49,7 @@ const Database = {
   // Returns an array of objects with the document ID and the data
   // If there's an error, returns null
   get: async function (userId, collectionName) {
-    const response = await fetch(
-      `${apiEndpoint}/users/${userId}/${collectionName}`
-    )
+    const response = await fetch(`${apiEndpoint}/${userId}/${collectionName}`)
     console.log(response)
     if (!response.ok) {
       console.error('Error fetching from database: ', response)
@@ -84,16 +82,13 @@ const Database = {
       },
     }
 
-    const response = await fetch(
-      `${apiEndpoint}/users/${userId}/${collectionName}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(firestoreData),
-      }
-    )
+    const response = await fetch(`${apiEndpoint}/${userId}/${collectionName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(firestoreData),
+    })
     console.log(response)
 
     if (!response.ok) {
@@ -120,7 +115,7 @@ const Database = {
     }
 
     const response = await fetch(
-      `${apiEndpoint}/users/${userId}/${collectionName}/${docId}`,
+      `${apiEndpoint}/${userId}/${collectionName}/${docId}`,
       {
         method: 'PATCH', // Use PATCH to update an existing document
         headers: {
@@ -143,7 +138,7 @@ const Database = {
   // Returns true if the operation was successful, false otherwise
   delete: async function (userId, collectionName, docId) {
     const response = await fetch(
-      `${apiEndpoint}/users/${userId}/${collectionName}/${docId}`,
+      `${apiEndpoint}/${userId}/${collectionName}/${docId}`,
       {
         method: 'DELETE',
       }
