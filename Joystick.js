@@ -13,11 +13,11 @@ class Joystick {
 
     // Add event listeners to the window object to detect key presses
     window.addEventListener('keydown', (event) => {
-      this.setKeyState(event.keyCode, true)
+      this.setKeyState(event.key, true)
     })
 
     window.addEventListener('keyup', (event) => {
-      this.setKeyState(event.keyCode, false)
+      this.setKeyState(event.key, false)
     })
   }
 
@@ -29,22 +29,30 @@ class Joystick {
     this.enable = false
   }
 
-  setKeyState(keyCode, state) {
-    switch (keyCode) {
-      case 37: // Arrow Left
-      case 65: // A
+  setKeyState(key, state) {
+    switch (key) {
+      case 'ArrowLeft':
+      case 'Left': // Arrow Left in some browsers
+      case 'A':
+      case 'a':
         this.left = state
         break
-      case 38: // Arrow Up
-      case 87: // W
+      case 'ArrowUp':
+      case 'Up': // Arrow Up in some browsers
+      case 'W':
+      case 'w':
         this.up = state
         break
-      case 39: // Arrow Right
-      case 68: // D
+      case 'ArrowRight':
+      case 'Right': // Arrow Right in some browsers
+      case 'D':
+      case 'd':
         this.right = state
         break
-      case 40: // Arrow Down
-      case 83: // S
+      case 'ArrowDown':
+      case 'Down': // Arrow Down in some browsers
+      case 'S':
+      case 's':
         this.down = state
         break
     }
