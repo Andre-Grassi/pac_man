@@ -29,7 +29,6 @@ class Database {
   async getUserId() {
     // Access local cookies
     const userId = localStorage.getItem('userId')
-    console.log(userId)
 
     // If the cookie is not set, create a new user ID
     let response
@@ -67,7 +66,6 @@ class Database {
     const response = await fetch(
       `${apiEndpoint}/${this.userId}/${collectionName}`
     )
-    console.log(response)
     if (!response.ok) {
       console.error('Error fetching from database: ', response)
       return null
@@ -109,7 +107,6 @@ class Database {
         body: JSON.stringify(firestoreData),
       }
     )
-    console.log(response)
 
     if (!response.ok) {
       console.error('Error posting to database: ', response)
