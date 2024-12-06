@@ -168,6 +168,21 @@ inputElements.forEach((input) => {
 // Event listener for the resize event
 window.addEventListener('resize', resizeDisplay)
 
+// Event listener for the help manual
+document.getElementById('how-to-button').addEventListener('click', function () {
+  paused = true
+  const howTo = document.getElementById('how-to-play')
+  howTo.style.visibility = 'visible'
+
+  // Close the help manual when the close button is clicked
+  document
+    .getElementById('close-button')
+    .addEventListener('click', function () {
+      howTo.style.visibility = 'hidden'
+      paused = false
+    })
+})
+
 // Event listeners for the update form (only show when user collects a fruit)
 document
   .getElementById('update-form')
