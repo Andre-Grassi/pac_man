@@ -1,3 +1,6 @@
+const apiEndpoint =
+  'https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents'
+
 // Database object
 // This object contains methods to interact with the Firestore database
 const Database = {
@@ -5,9 +8,7 @@ const Database = {
   // Returns an array of objects with the document ID and the data
   // If there's an error, returns null
   get: async function (collectionName) {
-    const response = await fetch(
-      `https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/${collectionName}`
-    )
+    const response = await fetch(`${apiEndpoint}/${collectionName}`)
     if (!response.ok) {
       console.error('Error fetching from database: ', response)
       return null
@@ -39,16 +40,13 @@ const Database = {
       },
     }
 
-    const response = await fetch(
-      `https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/${collectionName}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(firestoreData),
-      }
-    )
+    const response = await fetch(`${apiEndpoint}/${collectionName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(firestoreData),
+    })
 
     if (!response.ok) {
       console.error('Error posting to database: ', response)
@@ -73,16 +71,13 @@ const Database = {
       },
     }
 
-    const response = await fetch(
-      `https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/${collectionName}/${docId}`,
-      {
-        method: 'PATCH', // Use PATCH to update an existing document
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(firestoreData),
-      }
-    )
+    const response = await fetch(`${apiEndpoint}/${collectionName}/${docId}`, {
+      method: 'PATCH', // Use PATCH to update an existing document
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(firestoreData),
+    })
 
     if (!response.ok) {
       console.error('Error putting to database: ', response)
@@ -96,12 +91,9 @@ const Database = {
   // The docId parameter is the ID of the document to delete
   // Returns true if the operation was successful, false otherwise
   delete: async function (collectionName, docId) {
-    const response = await fetch(
-      `https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents/${collectionName}/${docId}`,
-      {
-        method: 'DELETE',
-      }
-    )
+    const response = await fetch(`${apiEndpoint}/${collectionName}/${docId}`, {
+      method: 'DELETE',
+    })
 
     if (!response.ok) {
       console.error('Error deleting from database: ', response)
