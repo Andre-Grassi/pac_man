@@ -1,3 +1,4 @@
+// Endpoint to communicate with the Firestore database
 const apiEndpoint =
   'https://firestore.googleapis.com/v1/projects/pac-man-5ff59/databases/(default)/documents'
 
