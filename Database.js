@@ -1,14 +1,3 @@
-// Firebase imports
-import { db } from './firebase-config.js'
-import {
-  collection,
-  doc,
-  getDocs,
-  addDoc,
-  setDoc,
-  deleteDoc,
-} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js'
-
 // Database object
 // This object contains methods to interact with the Firestore database
 const Database = {
