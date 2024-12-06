@@ -23,7 +23,6 @@ body {
   width: 18.75rem;
   position: absolute;
 
-  background-color: rgba(71, 57, 0, 0.8);
   padding: 1rem;
   border-radius: 0.3125rem;
 }
@@ -88,10 +87,33 @@ button:hover {
   font-size: small;
 }
 
+#how-to-button {
+  font-size: xx-small;
+}
+
+#how-to-play {
+  max-width: 18.75rem;
+  border-radius: 0.3125rem;
+  padding: 1rem;
+  font-size: small;
+}
+
+#how-to-play h3 {
+  color: #ffd700;
+}
+
+#how-to-play p {
+  text-align: left;
+}
+
 .center {
   position: absolute;
   display: flex;
   justify-content: center;
   width: 100%;
   left: 0;
+}
+
+.transparent-bg {
+  background-color: rgba(71, 57, 0, 0.8);
 }
