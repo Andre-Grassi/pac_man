@@ -12,10 +12,26 @@
       <input type="text" id="input-name" name="input-name" placeholder="Name" />
       <button type="button" id="create-button">Create</button>
       <button type="button" id="delete-button">Delete</button>
+      <button type="button" id="how-to-button">How to play</button>
     </form>
 
     <div class="center">
-      <form id="update-form" style="visibility: hidden">
+      <div id="how-to-play" class="transparent-bg" style="visibility: hidden">
+        <h3>How to Play</h3>
+        <p>Use the arrow keys or WASD to move Pac-Man around the maze.</p>
+        <p>
+          You can create new ghosts or delete them manually in the input bar
+          above the maze.
+        </p>
+        <p>When you eat a ghost you delete it from the database.</p>
+        <p>And when you eat a fruit you can update a ghost's name.</p>
+        <p>Good luck and have fun!</p>
+        <button type="button" id="close-button">Close</button>
+      </div>
+    </div>
+
+    <div class="center">
+      <form id="update-form" class="transparent-bg" style="visibility: hidden">
         <ul id="enemy-list"></ul>
         <input
           type="text"
