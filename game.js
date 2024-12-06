@@ -170,6 +170,7 @@ document
   .getElementById('update-form')
   .addEventListener('submit', function (event) {
     event.preventDefault()
+    handleUpdateEnemy()
   })
 document
   .getElementById('update-button')
@@ -178,6 +179,7 @@ document
 // Event listeners for the form of adding and deleting enemies
 document.getElementById('db-form').addEventListener('submit', function (event) {
   event.preventDefault()
+  handleCreateEnemy()
 })
 document
   .getElementById('create-button')
@@ -269,6 +271,9 @@ function showEnemyList() {
 }
 
 async function handleUpdateEnemy() {
+  // If no enemy is selected, return
+  if (!selectedEnemy) return
+
   const inputElement = document.getElementById('update-input')
 
   // Get value from input
